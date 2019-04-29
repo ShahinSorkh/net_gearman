@@ -1,5 +1,5 @@
 
-Net_Gearman
+ShSo\Net\Gearman
 About
 
 Net_Gearman is a PEAR package for interfacing with Danga's Gearman. Gearman is a system to farm out work to other machines, dispatching function calls to machines that are better suited to do work, to do work in parallel, to load balance lots of function calls, or to call functions between languages.
@@ -7,17 +7,14 @@ Net_Gearman is a PEAR package for interfacing with Danga's Gearman. Gearman is a
 Net_Gearman is currently in production at Yahoo! and Digg doing all sorts of offloaded near time processing.
 Installation
 
-   1. Install PEAR if it is not already installed on your system.
-   2. Run pear install http://netgearman.googlecode.com/files/Net_Gearman-x.y.z.tgz (Replace x.y.z with the latest version from the featured download to the right). 
+   run composer require shso/net_gearman
 
 Examples
 Client
 
 <?php
 
-require_once 'Net/Gearman/Client.php';
-
-$client = new Net_Gearman_Client('localhost:7003');
+$client = new ShSo\Net\Gearman\Client('localhost:7003');
 $client->someBackgroundJob(array(
     'userid' => 5555,
     'action' => 'new-comment'
@@ -29,17 +26,17 @@ Job
 
 <?php
 
-class Net_Gearman_Job_someBackgroundJob extends Net_Gearman_Job_Common
+class Net_Gearman_Job_someBackgroundJob extends ShSo\Net\Gearman\Job\Common
 {
     public function run($args)
     {
         if (!isset($args['userid']) || !isset($args['action'])) {
-            throw new Net_Gearman_Job_Exception('Invalid/Missing arguments');
+            throw new ShSo\Net\Gearman\Job\Exception('Invalid/Missing arguments');
         }
 
         // Insert a record or something based on the $args
 
-        return array(); // Results are returned to Gearman, except for 
+        return array(); // Results are returned to Gearman, except for
                         // background jobs like this one.
     }
 }
@@ -50,9 +47,7 @@ Worker
 
 <?php
 
-require_once 'Net/Gearman/Worker.php';
-
-$worker = new Net_Gearman_Worker('localhost:7003');
+$worker = new ShSo\Net\Gearman\Worker('localhost:7003');
 $worker->addAbility('someBackgroundJob');
 $worker->beginWork();
 
