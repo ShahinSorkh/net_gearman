@@ -4,11 +4,14 @@
 
 Net_Gearman is a PEAR package for interfacing with Danga's Gearman. Gearman is a system to farm out work to other machines, dispatching function calls to machines that are better suited to do work, to do work in parallel, to load balance lots of function calls, or to call functions between languages.
 
-Net_Gearman is currently in production at Yahoo! and Digg doing all sorts of offloaded near time processing.
-Installation
+Net_Gearman was in production at Yahoo! and Digg doing all sorts of offloaded near time processing.
+
+This package got no update since Feb 23, 2011. I'm going to maintain from now on.
+
+## Installation
 
 ```sh
-   run composer require shso/net_gearman
+php composer.phar require shso/net_gearman
 ```
 
 ## Examples
