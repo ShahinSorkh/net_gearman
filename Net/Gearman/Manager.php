@@ -5,15 +5,15 @@
  *
  * PHP version 5.1.0+
  *
- * LICENSE: This source file is subject to the New BSD license that is 
+ * LICENSE: This source file is subject to the New BSD license that is
  * available through the world-wide-web at the following URI:
- * http://www.opensource.org/licenses/bsd-license.php. If you did not receive  
- * a copy of the New BSD License and are unable to obtain it through the web, 
+ * http://www.opensource.org/licenses/bsd-license.php. If you did not receive
+ * a copy of the New BSD License and are unable to obtain it through the web,
  * please send a note to license@php.net so we can mail you a copy immediately.
  *
  * @category  Net
- * @package   Net_Gearman
- * @author    Joe Stump <joe@joestump.net> 
+ * @package   ShSo\Net\Gearman
+ * @author    Joe Stump <joe@joestump.net>
  * @copyright 2007-2008 Digg.com, Inc.
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version   CVS: $Id$
@@ -21,8 +21,7 @@
  * @link      http://www.danga.com/gearman/
  */
 
-require_once 'Net/Gearman/Connection.php';
-
+namespace ShSo\Net\Gearman;
 /**
  * A client for managing Gearmand servers
  *
@@ -31,21 +30,21 @@ require_once 'Net/Gearman/Connection.php';
  * queue, shutting down the server, version, etc.
  *
  * @category  Net
- * @package   Net_Gearman
- * @author    Joe Stump <joe@joestump.net> 
+ * @package   ShSo\Net\Gearman
+ * @author    Joe Stump <joe@joestump.net>
  * @copyright 2007-2008 Digg.com, Inc.
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version   Release: @package_version@
  * @link      http://www.danga.com/gearman/
  */
-class Net_Gearman_Manager
+class Manager
 {
     /**
      * Connection resource
      *
      * @var resource $conn Connection to Gearman server
-     * @see Net_Gearman_Manager::sendCommand()
-     * @see Net_Gearman_Manager::recvCommand()
+     * @see ShSo\Net\Gearman\Manager::sendCommand()
+     * @see ShSo\Net\Gearman\Manager::recvCommand()
      */
     protected $conn = null;
 
@@ -53,11 +52,11 @@ class Net_Gearman_Manager
      * The server is shutdown
      *
      * We obviously can't send more commands to a server after it's been shut
-     * down. This is set to true in Net_Gearman_Manager::shutdown() and then
-     * checked in Net_Gearman_Manager::sendCommand().
+     * down. This is set to true in ShSo\Net\Gearman\Manager::shutdown() and then
+     * checked in ShSo\Net\Gearman\Manager::sendCommand().
      *
-     * @var boolean $shutdown 
-     */ 
+     * @var boolean $shutdown
+     */
     protected $shutdown = false;
 
     /**
@@ -66,8 +65,8 @@ class Net_Gearman_Manager
      * @param string  $server  Host and port (e.g. 'localhost:7003')
      * @param integer $timeout Connection timeout
      *
-     * @throws Net_Gearman_Exception
-     * @see Net_Gearman_Manager::$conn
+     * @throws ShSo\Net\Gearman\Exception
+     * @see ShSo\Net\Gearman\Manager::$conn
      */
     public function __construct($server, $timeout = 5)
     {
@@ -82,18 +81,18 @@ class Net_Gearman_Manager
         $errMsg     = '';
         $this->conn = @fsockopen($host, $port, $errCode, $errMsg, $timeout);
         if ($this->conn === false) {
-            throw new Net_Gearman_Exception(
+            throw new Exception(
                 'Could not connect to ' . $host . ':' . $port
             );
-        } 
+        }
     }
 
     /**
      * Get the version of Gearman running
      *
      * @return string
-     * @see Net_Gearman_Manager::sendCommand()
-     * @see Net_Gearman_Manager::checkForError()
+     * @see ShSo\Net\Gearman\Manager::sendCommand()
+     * @see ShSo\Net\Gearman\Manager::checkForError()
      */
     public function version()
     {
@@ -109,9 +108,9 @@ class Net_Gearman_Manager
      * @param boolean $graceful Whether it should be a graceful shutdown
      *
      * @return boolean
-     * @see Net_Gearman_Manager::sendCommand()
-     * @see Net_Gearman_Manager::checkForError()
-     * @see Net_Gearman_Manager::$shutdown
+     * @see ShSo\Net\Gearman\Manager::sendCommand()
+     * @see ShSo\Net\Gearman\Manager::checkForError()
+     * @see ShSo\Net\Gearman\Manager::$shutdown
      */
     public function shutdown($graceful = false)
     {
@@ -119,7 +118,7 @@ class Net_Gearman_Manager
         $this->sendCommand($cmd);
         $res = fgets($this->conn, 4096);
         $this->checkForError($res);
-        
+
         $this->shutdown = (trim($res) == 'OK');
         return $this->shutdown;
     }
@@ -131,7 +130,7 @@ class Net_Gearman_Manager
      * that the worker has announced.
      *
      * @return array A list of workers connected to the server
-     * @throws Net_Gearman_Exception
+     * @throws ShSo\Net\Gearman\Exception
      */
     public function workers()
     {
@@ -140,7 +139,7 @@ class Net_Gearman_Manager
         $workers = array();
         $tmp     = explode("\n", $res);
         foreach ($tmp as $t) {
-            if (!Net_Gearman_Connection::stringLength($t)) {
+            if (!Connection::stringLength($t)) {
                 continue;
             }
 
@@ -163,32 +162,32 @@ class Net_Gearman_Manager
     /**
      * Set maximum queue size for a function
      *
-     * For a given function of job, the maximum queue size is adjusted to be 
-     * max_queue_size jobs long. A negative value indicates unlimited queue 
+     * For a given function of job, the maximum queue size is adjusted to be
+     * max_queue_size jobs long. A negative value indicates unlimited queue
      * size.
-     * 
-     * If the max_queue_size value is not supplied then it is unset (and the 
+     *
+     * If the max_queue_size value is not supplied then it is unset (and the
      * default maximum queue size will apply to this function).
      *
      * @param string  $function Name of function to set queue size for
      * @param integer $size     New size of queue
      *
      * @return boolean
-     * @throws Net_Gearman_Exception
+     * @throws ShSo\Net\Gearman\Exception
      */
     public function setMaxQueueSize($function, $size)
     {
         if (!is_numeric($size)) {
-            throw new Net_Gearman_Exception('Queue size must be numeric');
+            throw new Exception('Queue size must be numeric');
         }
 
         if (preg_match('/[^a-z0-9_]/i', $function)) {
-            throw new Net_Gearman_Exception('Invalid function name');
+            throw new Exception('Invalid function name');
         }
 
         $this->sendCommand('maxqueue ' . $function . ' ' . $size);
         $res = fgets($this->conn, 4096);
-        $this->checkForError($res); 
+        $this->checkForError($res);
         return (trim($res) == 'OK');
     }
 
@@ -196,12 +195,12 @@ class Net_Gearman_Manager
      * Get queue/worker status by function
      *
      * This function queries for queue status. The array returned is keyed by
-     * the function (job) name and has how many jobs are in the queue, how 
-     * many jobs are running and how many workers are capable of performing 
+     * the function (job) name and has how many jobs are in the queue, how
+     * many jobs are running and how many workers are capable of performing
      * that job.
      *
-     * @return array An array keyed by function name 
-     * @throws Net_Gearman_Exception
+     * @return array An array keyed by function name
+     * @throws ShSo\Net\Gearman\Exception
      */
     public function status()
     {
@@ -211,7 +210,7 @@ class Net_Gearman_Manager
         $status = array();
         $tmp    = explode("\n", $res);
         foreach ($tmp as $t) {
-            if (!Net_Gearman_Connection::stringLength($t)) {
+            if (!Connection::stringLength($t)) {
                 continue;
             }
 
@@ -233,28 +232,28 @@ class Net_Gearman_Manager
      * @param string $cmd The command to send
      *
      * @return void
-     * @throws Net_Gearman_Exception
+     * @throws ShSo\Net\Gearman\Exception
      */
     protected function sendCommand($cmd)
     {
         if ($this->shutdown) {
-            throw new Net_Gearman_Exception('This server has been shut down');
+            throw new Exception('This server has been shut down');
         }
 
-        fwrite($this->conn, 
-               $cmd . "\r\n", 
-               Net_Gearman_Connection::stringLength($cmd . "\r\n"));
+        fwrite($this->conn,
+               $cmd . "\r\n",
+               Connection::stringLength($cmd . "\r\n"));
     }
 
     /**
      * Receive a response
      *
-     * For most commands Gearman returns a bunch of lines and ends the 
+     * For most commands Gearman returns a bunch of lines and ends the
      * transmission of data with a single line of ".\n". This command reads
      * in everything until ".\n". If the command being sent is NOT ended with
      * ".\n" DO NOT use this command.
      *
-     * @throws Net_Gearman_Exception
+     * @throws ShSo\Net\Gearman\Exception
      * @return string
      */
     protected function recvCommand()
@@ -276,21 +275,21 @@ class Net_Gearman_Manager
     /**
      * Check for an error
      *
-     * Gearman returns errors in the format of 'ERR code_here Message+here'. 
+     * Gearman returns errors in the format of 'ERR code_here Message+here'.
      * This method checks returned values from the server for this error format
      * and will throw the appropriate exception.
      *
      * @param string $data The returned data to check for an error
      *
      * @return void
-     * @throws Net_Gearman_Exception
+     * @throws ShSo\Net\Gearman\Exception
      */
     protected function checkForError($data)
     {
-        $data = trim($data); 
+        $data = trim($data);
         if (preg_match('/^ERR/', $data)) {
             list(, $code, $msg) = explode(' ', $data);
-            throw new Net_Gearman_Exception($msg, urldecode($code));
+            throw new Exception($msg, urldecode($code));
         }
     }
 
@@ -298,7 +297,7 @@ class Net_Gearman_Manager
      * Disconnect from server
      *
      * @return void
-     * @see Net_Gearman_Manager::$conn
+     * @see ShSo\Net\Gearman\Manager::$conn
      */
     public function disconnect()
     {
@@ -317,5 +316,3 @@ class Net_Gearman_Manager
         $this->disconnect();
     }
 }
-
-?>

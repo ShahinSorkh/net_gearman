@@ -1,29 +1,35 @@
 <?php
+
+namespace ShSo\Test\Net\Gearman;
+
+use ShSo\Net\Gearman\Task;
+use PHPUnit\Framework\TestCase;
+
 /**
- * Net_Gearman_ConnectionTest
+ * ShSo\Net\Gearman\ConnectionTest
  *
  * PHP version 5
  *
  * @category   Testing
- * @package    Net_Gearman
- * @subpackage Net_Gearman_Task
+ * @package    ShSo\Net\Gearman
+ * @subpackage ShSo\Net\Gearman\Task
  * @author     Till Klampaeckel <till@php.net>
  * @license    http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version    CVS: $Id$
  * @link       http://pear.php.net/package/Net_Gearman
  * @since      0.2.4
  */
-class Net_Gearman_TaskTest extends PHPUnit_Framework_TestCase
+class TaskTest extends TestCase
 {
     /**
      * Unknown job type.
      *
      * @return void
-     * @expectedException Net_Gearman_Exception
+     * @expectedException ShSo\Net\Gearman\Exception
      */
     public function testExceptionFromConstruct()
     {
-        new Net_Gearman_Task('foo', array(), null, 8);
+        new Task('foo', array(), null, 8);
     }
 
     /**
@@ -34,37 +40,37 @@ class Net_Gearman_TaskTest extends PHPUnit_Framework_TestCase
     public function testParameters()
     {
         $uniq = uniqid();
-        $task = new Net_Gearman_Task('foo', array('bar'), $uniq, 1);
+        $task = new Task('foo', array('bar'), $uniq, 1);
 
         $this->assertEquals('foo', $task->func);
         $this->assertEquals(array('bar'), $task->arg);
-        $this->assertEquals($uniq, $task->uniq);        
+        $this->assertEquals($uniq, $task->uniq);
     }
 
     /**
-     * @expectedException Net_Gearman_Exception
+     * @expectedException ShSo\Net\Gearman\Exception
      */
     public function testAttachInvalidCallback()
     {
-        $task = new Net_Gearman_Task('foo', array());
+        $task = new Task('foo', array());
         $task->attachCallback('func_bar');
     }
 
     /**
-     * @expectedException Net_Gearman_Exception
+     * @expectedException ShSo\Net\Gearman\Exception
      */
     public function testAttachInvalidCallbackType()
     {
-        $task = new Net_Gearman_Task('foo', array());
-        $this->assertType('Net_Gearman_Task', $task->attachCallback('strlen', 666));
+        $task = new Task('foo', array());
+        $this->assertInternalType(Task::class, $task->attachCallback('strlen', 666));
     }
 
     public static function callbackProvider()
     {
         return array(
-            array('strlen',  Net_Gearman_Task::TASK_FAIL),
-            array('intval',  Net_Gearman_Task::TASK_COMPLETE),
-            array('explode', Net_Gearman_Task::TASK_STATUS),
+            array('strlen',  Task::TASK_FAIL),
+            array('intval',  Task::TASK_COMPLETE),
+            array('explode', Task::TASK_STATUS),
         );
     }
 
@@ -73,7 +79,7 @@ class Net_Gearman_TaskTest extends PHPUnit_Framework_TestCase
      */
     public function testAttachCallback($func, $type)
     {
-        $task = new Net_Gearman_Task('foo', array());
+        $task = new Task('foo', array());
         $task->attachCallback($func, $type);
 
         $callbacks = $task->getCallbacks();
@@ -88,12 +94,12 @@ class Net_Gearman_TaskTest extends PHPUnit_Framework_TestCase
      */
     public function testCompleteCallback()
     {
-        $task = new Net_Gearman_Task('foo', array('foo' => 'bar'));
+        $task = new Task('foo', array('foo' => 'bar'));
 
         $this->assertEquals(null, $task->complete('foo'));
 
         // Attach a callback for real
-        $task->attachCallback('Net_Gearman_TaskTest_testCallBack');
+        $task->attachCallback('\ShSo\Test\Net\Gearman\Net_Gearman_TaskTest_testCallBack');
 
         // build result and call complete again
         $json = json_decode('{"foo":"bar"}');

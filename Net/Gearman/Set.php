@@ -5,15 +5,15 @@
  *
  * PHP version 5.1.0+
  *
- * LICENSE: This source file is subject to the New BSD license that is 
+ * LICENSE: This source file is subject to the New BSD license that is
  * available through the world-wide-web at the following URI:
- * http://www.opensource.org/licenses/bsd-license.php. If you did not receive  
- * a copy of the New BSD License and are unable to obtain it through the web, 
+ * http://www.opensource.org/licenses/bsd-license.php. If you did not receive
+ * a copy of the New BSD License and are unable to obtain it through the web,
  * please send a note to license@php.net so we can mail you a copy immediately.
  *
  * @category  Net
- * @package   Net_Gearman
- * @author    Joe Stump <joe@joestump.net> 
+ * @package   ShSo\Net\Gearman
+ * @author    Joe Stump <joe@joestump.net>
  * @copyright 2007-2008 Digg.com, Inc.
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version   CVS: $Id$
@@ -21,8 +21,7 @@
  * @link      http://www.danga.com/gearman/
  */
 
-require_once 'Net/Gearman/Task.php';
-
+namespace ShSo\Net\Gearman;
 /**
  * A class for creating sets of tasks
  *
@@ -33,40 +32,40 @@ require_once 'Net/Gearman/Task.php';
  * // This is the callback function for our tasks
  * function echoResult($result) {
  *     echo 'The result was: ' . $result . "\n";
- * } 
+ * }
  *
  * // Job name is the key, arguments to job are in the value array
  * $jobs = array(
  *     'AddTwoNumbers' => array('1', '2'),
  *     'Multiply' => array('3', '4')
  * );
- * 
- * $set = new Net_Gearman_Set();
+ *
+ * $set = new ShSo\Net\Gearman\Set();
  * foreach ($jobs as $job => $args) {
- *     $task = new Net_Gearman_Task($job, $args);
+ *     $task = new ShSo\Net\Gearman\Task($job, $args);
  *     $task->attachCallback('echoResult');
  *     $set->addTask($task);
  * }
  *
- * $client = new Net_Gearman_Client(array(
+ * $client = new ShSo\Net\Gearman\Client(array(
  *     '127.0.0.1:7003', '127.0.0.1:7004'
  * ));
- * 
+ *
  * $client->runSet($set);
  *
  * ?>
  * </code>
  *
  * @category  Net
- * @package   Net_Gearman
- * @author    Joe Stump <joe@joestump.net> 
+ * @package   ShSo\Net\Gearman
+ * @author    Joe Stump <joe@joestump.net>
  * @copyright 2007-2008 Digg.com, Inc.
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version   Release: @package_version@
  * @link      http://www.danga.com/gearman/
- * @see       Net_Gearman_Job_Common, Net_Gearman_Worker
+ * @see       ShSo\Net\Gearman\Job\Common, ShSo\Net\Gearman\Worker
  */
-class Net_Gearman_Set implements IteratorAggregate, Countable
+class Set implements IteratorAggregate, Countable
 {
     /**
      * Tasks count
@@ -102,7 +101,7 @@ class Net_Gearman_Set implements IteratorAggregate, Countable
      * @param array $tasks Array of tasks to run
      *
      * @return void
-     * @see Net_Gearman_Task
+     * @see ShSo\Net\Gearman\Task
      */
     public function __construct(array $tasks = array())
     {
@@ -117,9 +116,9 @@ class Net_Gearman_Set implements IteratorAggregate, Countable
      * @param object $task Task to add to the set
      *
      * @return void
-     * @see Net_Gearman_Task, Net_Gearman_Set::$tasks
+     * @see ShSo\Net\Gearman\Task, ShSo\Net\Gearman\Set::$tasks
      */
-    public function addTask(Net_Gearman_Task $task)
+    public function addTask(Task $task)
     {
         if (!isset($this->tasks[$task->uniq])) {
             $this->tasks[$task->uniq] = $task;
@@ -131,18 +130,18 @@ class Net_Gearman_Set implements IteratorAggregate, Countable
      * Get a task
      *
      * @param string $handle Handle of task to get
-     * 
+     *
      * @return object Instance of task
-     * @throws Net_Gearman_Exception 
+     * @throws ShSo\Net\Gearman\Exception
      */
     public function getTask($handle)
     {
         if (!isset($this->handles[$handle])) {
-            throw new Net_Gearman_Exception('Unknown handle');
+            throw new Exception('Unknown handle');
         }
 
         if (!isset($this->tasks[$this->handles[$handle]])) {
-            throw new Net_Gearman_Exception('No task by that handle');
+            throw new Exception('No task by that handle');
         }
 
         return $this->tasks[$this->handles[$handle]];
@@ -151,7 +150,7 @@ class Net_Gearman_Set implements IteratorAggregate, Countable
     /**
      * Is this set finished running?
      *
-     * This function will return true if all of the tasks in the set have 
+     * This function will return true if all of the tasks in the set have
      * finished running. If they have we also run the set callbacks if there
      * is one.
      *
@@ -163,7 +162,7 @@ class Net_Gearman_Set implements IteratorAggregate, Countable
             if (isset($this->callback)) {
                 foreach ($this->tasks as $task) {
                     $results[] = $task->result;
-                }              
+                }
 
                 call_user_func($this->callback, $results);
             }
@@ -175,18 +174,18 @@ class Net_Gearman_Set implements IteratorAggregate, Countable
     }
 
     /**
-     * Attach a callback to this set   
-     * 
+     * Attach a callback to this set
+     *
      * @param callback $callback A valid PHP callback
-     * 
+     *
      * @return void
-     * @throws Net_Gearman_Exception
+     * @throws ShSo\Net\Gearman\Exception
      */
-    public function attachCallback($callback) 
+    public function attachCallback($callback)
     {
         if (!is_callable($callback)) {
-            throw new Net_Gearman_Exception('Invalid callback specified'); 
-        } 
+            throw new Exception('Invalid callback specified');
+        }
 
         $this->callback = $callback;
     }

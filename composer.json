@@ -10,5 +10,18 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {}
+    "autoload": {
+        "psr-4": {
+            "ShSo\\Net\\": "Net"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ShSo\\Test\\Net\\": "tests"
+        }
+    },
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^6.5"
+    }
 }

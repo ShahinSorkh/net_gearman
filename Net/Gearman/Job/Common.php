@@ -5,15 +5,15 @@
  *
  * PHP version 5.1.0+
  *
- * LICENSE: This source file is subject to the New BSD license that is 
+ * LICENSE: This source file is subject to the New BSD license that is
  * available through the world-wide-web at the following URI:
- * http://www.opensource.org/licenses/bsd-license.php. If you did not receive  
- * a copy of the New BSD License and are unable to obtain it through the web, 
+ * http://www.opensource.org/licenses/bsd-license.php. If you did not receive
+ * a copy of the New BSD License and are unable to obtain it through the web,
  * please send a note to license@php.net so we can mail you a copy immediately.
  *
  * @category  Net
- * @package   Net_Gearman
- * @author    Joe Stump <joe@joestump.net> 
+ * @package   ShSo\Net\Gearman
+ * @author    Joe Stump <joe@joestump.net>
  * @copyright 2007-2008 Digg.com, Inc.
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version   CVS: $Id$
@@ -21,34 +21,36 @@
  * @link      http://www.danga.com/gearman/
  */
 
-require_once 'Net/Gearman/Job/Exception.php';
+namespace ShSo\Net\Gearman\Job;
+
+use ShSo\Net\Gearman\Connection;
 
 /**
  * Base job class for all Gearman jobs
  *
  * @category  Net
- * @package   Net_Gearman
- * @author    Joe Stump <joe@joestump.net> 
+ * @package   ShSo\Net\Gearman
+ * @author    Joe Stump <joe@joestump.net>
  * @copyright 2007-2008 Digg.com, Inc.
  * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
  * @version   Release: @package_version@
  * @link      http://www.danga.com/gearman/
- * @see       Net_Gearman_Job_Common, Net_Gearman_Worker
+ * @see       ShSo\Net\Gearman\Job\Common, ShSo\Net\Gearman\Worker
  */
-abstract class Net_Gearman_Job_Common
+abstract class Common
 {
     /**
      * Gearman job handle
      *
      * @var string $handle
      */
-    protected $handle = ''; 
-   
+    protected $handle = '';
+
     /**
      * Connection to Gearman
      *
-     * @var resource $conn           
-     * @see Net_Gearman_Connection
+     * @var resource $conn
+     * @see ShSo\Net\Gearman\Connection
      */
     protected $conn = null;
 
@@ -63,7 +65,7 @@ abstract class Net_Gearman_Job_Common
      * @param resource $conn   Connection to communicate with
      * @param string   $handle Job ID / handle for this job
      * @param array $initParams initialization parameters
-     * 
+     *
      * @return void
      */
     public function __construct($conn, $handle, array $initParams=array())
@@ -77,9 +79,9 @@ abstract class Net_Gearman_Job_Common
      * Run your job here
      *
      * @param array $arg Arguments passed from the client
-     * 
+     *
      * @return void
-     * @throws Net_Gearman_Exception
+     * @throws ShSo\Net\Gearman\Exception
      */
     abstract public function run($arg);
 
@@ -90,33 +92,33 @@ abstract class Net_Gearman_Job_Common
      * @param integer $denominator The denominator  (e.g. 100)
      *
      * @return void
-     * @see Net_Gearman_Connection::send()
+     * @see ShSo\Net\Gearman\Connection::send()
      */
-    public function status($numerator, $denominator) 
+    public function status($numerator, $denominator)
     {
-        Net_Gearman_Connection::send($this->conn, 'work_status', array(
+        Connection::send($this->conn, 'work_status', array(
             'handle' => $this->handle,
             'numerator' => $numerator,
             'denominator' => $denominator
-        ));    
+        ));
     }
 
     /**
      * Mark your job as complete with its status
      *
-     * Net_Gearman communicates between the client and jobs in JSON. The main
+     * ShSo\Net\Gearman communicates between the client and jobs in JSON. The main
      * benefit of this is that we can send fairly complex data types between
      * different languages. You should always pass an array as the result to
      * this function.
      *
      * @param array $result Result of your job
-     * 
+     *
      * @return void
-     * @see Net_Gearman_Connection::send()
+     * @see ShSo\Net\Gearman\Connection::send()
      */
     public function complete(array $result)
     {
-        Net_Gearman_Connection::send($this->conn, 'work_complete', array(
+        Connection::send($this->conn, 'work_complete', array(
             'handle' => $this->handle,
             'result' => json_encode($result)
         ));
@@ -130,14 +132,12 @@ abstract class Net_Gearman_Job_Common
      * (and the client by proxy) that the job has failed.
      *
      * @return void
-     * @see Net_Gearman_Connection::send()
+     * @see ShSo\Net\Gearman\Connection::send()
      */
     public function fail()
     {
-        Net_Gearman_Connection::send($this->conn, 'work_fail', array(
+        Connection::send($this->conn, 'work_fail', array(
             'handle' => $this->handle
         ));
     }
 }
-
-?>
