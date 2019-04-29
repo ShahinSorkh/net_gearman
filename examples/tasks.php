@@ -1,8 +1,12 @@
 <?php
 
-require_once 'Net/Gearman/Client.php';
+require_once 'vendor/autoload.php';
 
-$set = new Net_Gearman_Set();
+use ShSo\Net\Gearman\Client;
+use ShSo\Net\Gearman\Set;
+use ShSo\Net\Gearman\Task;
+
+$set = new Set();
 
 function result($func, $handle, $result) {
     var_dump($func);
@@ -17,7 +21,7 @@ $sql = array(
 );
 
 foreach ($sql as $s) {
-    $task = new Net_Gearman_Task('SQL', array(
+    $task = new Task('SQL', array(
         'sql' => $s
     ));
 
@@ -25,7 +29,7 @@ foreach ($sql as $s) {
     $set->addTask($task);
 }
 
-$client = new Net_Gearman_Client(array('dev01'));
+$client = new Client(array('dev01'));
 $client->runSet($set);
 
 ?>

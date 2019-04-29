@@ -1,14 +1,17 @@
 <?php
 
-require_once 'Net/Gearman/Worker.php';
+require_once 'vendor/autoload.php';
+
+use ShSo\Net\Gearman\Exception;
+use ShSo\Net\Gearman\Worker;
 
 try {
-    $worker = new Net_Gearman_Worker(array('dev01:7003', 'dev01:7004'));
+    $worker = new Worker(array('dev01:7003', 'dev01:7004'));
     $worker->addAbility('Hello');
     $worker->addAbility('Fail');
     $worker->addAbility('SQL');
     $worker->beginWork();
-} catch (Net_Gearman_Exception $e) {
+} catch (Exception $e) {
     echo $e->getMessage() . "\n";
     exit;
 }

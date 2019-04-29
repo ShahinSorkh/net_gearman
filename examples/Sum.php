@@ -1,12 +1,16 @@
 <?php
 
+require_once 'vendor/autoload.php';
+
+use ShSo\Net\Gearman\Job\Common;
+
 /**
  * Sum up a bunch of numbers
  *
  * @author      Joe Stump <joe@joestump.net>
  * @package     Net_Gearman
  */
-class Net_Gearman_Job_Sum extends Net_Gearman_Job_Common
+class Net_Gearman_Job_Sum extends Common
 {
     /**
      * Run the summing job

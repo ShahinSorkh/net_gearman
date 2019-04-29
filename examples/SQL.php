@@ -1,13 +1,16 @@
 <?php
 
-require_once 'DB.php';
+require_once 'vendor/autoload.php';
 
-class Net_Gearman_Job_SQL extends Net_Gearman_Job_Common
+use ShSo\Net\Gearman\Exception;
+use ShSo\Net\Gearman\Job\Common;
+
+class Net_Gearman_Job_SQL extends Common
 {
     public function run($arg)
     {
         if (!isset($arg->sql) || !strlen($arg->sql)) {
-            throw new Net_Gearman_Job_Exception;
+            throw new Exception;
         }
 
         $db = DB::connect('mysql://testing:testing@192.168.243.20/testing');
