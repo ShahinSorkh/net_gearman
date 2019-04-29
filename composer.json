@@ -1,0 +1,14 @@
+{
+    "name": "shso/net_gearman",
+    "description": "A PHP interface for Danga's Gearman",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Shahin Sorkh",
+            "email": "sorkh.shahin@hotmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
