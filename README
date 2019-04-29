@@ -1,17 +1,21 @@
+# ShSo\Net\Gearman
 
-ShSo\Net\Gearman
-About
+## About
 
 Net_Gearman is a PEAR package for interfacing with Danga's Gearman. Gearman is a system to farm out work to other machines, dispatching function calls to machines that are better suited to do work, to do work in parallel, to load balance lots of function calls, or to call functions between languages.
 
 Net_Gearman is currently in production at Yahoo! and Digg doing all sorts of offloaded near time processing.
 Installation
 
+```sh
    run composer require shso/net_gearman
+```
 
-Examples
-Client
+## Examples
 
+### Client
+
+```php
 <?php
 
 $client = new ShSo\Net\Gearman\Client('localhost:7003');
@@ -21,9 +25,11 @@ $client->someBackgroundJob(array(
 ));
 
 ?>
+```
 
-Job
+### Job
 
+```php
 <?php
 
 class Net_Gearman_Job_someBackgroundJob extends ShSo\Net\Gearman\Job\Common
@@ -42,9 +48,11 @@ class Net_Gearman_Job_someBackgroundJob extends ShSo\Net\Gearman\Job\Common
 }
 
 ?>
+```
 
-Worker
+### Worker
 
+```php
 <?php
 
 $worker = new ShSo\Net\Gearman\Worker('localhost:7003');
@@ -52,3 +60,4 @@ $worker->addAbility('someBackgroundJob');
 $worker->beginWork();
 
 ?>
+```
