@@ -22,6 +22,9 @@
  */
 
 namespace ShSo\Net\Gearman;
+
+use Exception as BaseException;
+
 /**
  * Exception class for ShSo\Net\Gearman
  *
@@ -34,4 +37,4 @@ namespace ShSo\Net\Gearman;
  * @version   Release: @package_version@
  * @see       Exception
  */
-class Exception extends \Exception { }
+class Exception extends BaseException { }

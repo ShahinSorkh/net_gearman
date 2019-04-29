@@ -22,6 +22,10 @@
  */
 
 namespace ShSo\Net\Gearman;
+
+use Countable;
+use IteratorAggregate;
+
 /**
  * A class for creating sets of tasks
  *
