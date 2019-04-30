@@ -1,2 +1,3 @@
 tests/tests-config.php
 /vendor/
+docs/phpdoc-cache-*
