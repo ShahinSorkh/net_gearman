@@ -20,7 +20,10 @@
             "ShSo\\Test\\Net\\": "tests"
         }
     },
-    "require": {},
+    "scripts": {
+        "generate-docs": "./vendor/bin/phpdoc --title='ShSo\\Net\\Gearman' --sourcecode --defaultpackagename=ShSo\\Net\\Gearman -d Net -t docs --parseprivate --validate --template=new-black",
+        "run-tests": "./vendor/bin/phpunit tests"
+    },
     "require-dev": {
         "phpdocumentor/phpdocumentor": "^2.9",
         "phpunit/phpunit": "^6.5"
