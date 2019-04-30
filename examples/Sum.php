@@ -1,8 +1,9 @@
 <?php
 
-require_once 'vendor/autoload.php';
+namespace ShSo\Net\Gearman\Examples;
 
 use ShSo\Net\Gearman\Job\Common;
+use ShSo\Net\Gearman\Job\Exception;
 
 /**
  * Sum up a bunch of numbers
@@ -10,7 +11,7 @@ use ShSo\Net\Gearman\Job\Common;
  * @author      Joe Stump <joe@joestump.net>
  * @package     Net_Gearman
  */
-class Net_Gearman_Job_Sum extends Common
+class Sum extends Common
 {
     /**
      * Run the summing job
@@ -23,13 +24,11 @@ class Net_Gearman_Job_Sum extends Common
     {
         $sum = 0;
         foreach ($arg as $i) {
-            if (is_numeric($i)) {
-                $sum += $i;
-            }
+            if (!is_numeric($i))
+                throw new Exception('not a number');
+            $sum += $i;
         }
 
         return array('sum' => $sum);
     }
 }
-
-?>

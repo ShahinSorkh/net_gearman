@@ -1,6 +1,8 @@
 <?php
 
-require_once 'vendor/autoload.php';
+require_once '../vendor/autoload.php';
+
+use ShSo\Net\Gearman\Examples\SQL;
 
 use ShSo\Net\Gearman\Client;
 use ShSo\Net\Gearman\Set;
@@ -14,22 +16,19 @@ function result($func, $handle, $result) {
     var_dump($result);
 }
 
-$sql = array(
-    "SELECT * FROM users WHERE username = 'joestump'",
-    "SELECT * FROM users WHERE username LIKE 'joe%' LIMIT 10",
-    "SELECT * FROM items WHERE deleted = 0 LIMIT 10"
-);
+$pairs = [
+    [4, 6],
+    [3, 'foo'],
+    [8, 10],
+];
 
-foreach ($sql as $s) {
-    $task = new Task('SQL', array(
-        'sql' => $s
-    ));
-
+foreach ($pairs as $pair) {
+    $task = new Task('Sum', $pair);
     $task->attachCallback('result');
     $set->addTask($task);
 }
 
-$client = new Client(array('dev01'));
+$client = new Client('localhost:4730');
 $client->runSet($set);
 
 ?>

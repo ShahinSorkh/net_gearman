@@ -1,6 +1,6 @@
 <?php
 
-require_once 'vendor/autoload.php';
+require_once '../vendor/autoload.php';
 
 use ShSo\Net\Gearman\Client;
 use ShSo\Net\Gearman\Set;
@@ -16,17 +16,17 @@ function fail($task_object) {
     var_dump($task_object);
 }
 
-$client = new Client('localhost:7003');
+$client = new Client('localhost:4730');
 $set = new Set();
-$jobs = array(
-        'AddTwoNumbers' => array('1', '2'),
-        'Multiply' => array('3', '4')
-    );
+$jobs = [
+    'Sum' => [2, 4],
+    'Sum' => [5, new stdClass],
+];
 
 foreach ($jobs as $job => $args) {
     $task = new Task($job, $args);
-    $task->attachCallback("complete",Task::TASK_COMPLETE);
-    $task->attachCallback("fail",Task::TASK_FAIL);
+    $task->attachCallback('complete', Task::TASK_COMPLETE);
+    $task->attachCallback('fail', Task::TASK_FAIL);
     $set->addTask($task);
 }
 
