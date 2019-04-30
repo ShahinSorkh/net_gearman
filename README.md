@@ -6,7 +6,7 @@ Net_Gearman is a PEAR package for interfacing with Danga's Gearman. Gearman is a
 
 Net_Gearman was in production at Yahoo! and Digg doing all sorts of offloaded near time processing.
 
-This package got no update since Feb 23, 2011. I'm going to maintain from now on.
+[This package](https://github.com/lenn0x/net_gearman) got no update since Feb 23, 2011. I'm going to maintain from now on.
 
 ## Installation
 
