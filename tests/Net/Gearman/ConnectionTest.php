@@ -1,12 +1,11 @@
 <?php
 
-namespace ShSo\Test\Net\Gearman;
+namespace ShSo\Net\Gearman;
 
-use ShSo\Net\Gearman\Connection;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Net_Gearman_ConnectionTest
+ * ShSo\Net\Gearman\ConnectionTest
  *
  * PHP version 5
  *

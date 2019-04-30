@@ -1,8 +1,7 @@
 <?php
 
-namespace ShSo\Test\Net\Gearman;
+namespace ShSo\Net\Gearman;
 
-use ShSo\Net\Gearman\Task;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -99,7 +98,13 @@ class TaskTest extends TestCase
         $this->assertEquals(null, $task->complete('foo'));
 
         // Attach a callback for real
-        $task->attachCallback('\ShSo\Test\Net\Gearman\Net_Gearman_TaskTest_testCallBack');
+        $task->attachCallback(function ($func, $handle, $result) {
+            $GLOBALS['Net_Gearman_TaskTest'] = array(
+                'func'   => $func,
+                'handle' => $handle,
+                'result' => $result
+            );
+        });
 
         // build result and call complete again
         $json = json_decode('{"foo":"bar"}');
@@ -114,22 +119,4 @@ class TaskTest extends TestCase
 
         unset($GLOBALS['Net_Gearman_TaskTest']);
     }
-}
-
-/**
- * A test callback.
- *
- * @param string $func
- * @param string $handle
- * @param mixed  $result
- *
- * @return void
- */
-function Net_Gearman_TaskTest_testCallBack($func, $handle, $result)
-{
-    $GLOBALS['Net_Gearman_TaskTest'] = array(
-        'func'   => $func,
-        'handle' => $handle,
-        'result' => $result
-    );
 }
