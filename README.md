@@ -21,13 +21,11 @@ php composer.phar require shso/net_gearman
 ```php
 <?php
 
-$client = new ShSo\Net\Gearman\Client('localhost:7003');
-$client->someBackgroundJob(array(
+$client = new ShSo\Net\Gearman\Client('localhost:4730');
+$client->someBackgroundJob([
     'userid' => 5555,
     'action' => 'new-comment'
-));
-
-?>
+]);
 ```
 
 ### Job
@@ -35,7 +33,9 @@ $client->someBackgroundJob(array(
 ```php
 <?php
 
-class Net_Gearman_Job_someBackgroundJob extends ShSo\Net\Gearman\Job\Common
+namespace The\Job\Namespace;
+
+class someBackgroundJob extends ShSo\Net\Gearman\Job\Common
 {
     public function run($args)
     {
@@ -49,8 +49,6 @@ class Net_Gearman_Job_someBackgroundJob extends ShSo\Net\Gearman\Job\Common
                         // background jobs like this one.
     }
 }
-
-?>
 ```
 
 ### Worker
@@ -58,9 +56,10 @@ class Net_Gearman_Job_someBackgroundJob extends ShSo\Net\Gearman\Job\Common
 ```php
 <?php
 
-$worker = new ShSo\Net\Gearman\Worker('localhost:7003');
+if (!defined('NET_GEARMAN_JOB_CLASS_PREFIX'))
+    define('NET_GEARMAN_JOB_CLASS_PREFIX', "The\\Job\\Namespace\\");
+
+$worker = new ShSo\Net\Gearman\Worker('localhost:4730');
 $worker->addAbility('someBackgroundJob');
 $worker->beginWork();
-
-?>
 ```
