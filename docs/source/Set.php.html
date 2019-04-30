@@ -1,0 +1,264 @@
+<html>
+    <head>
+        <script
+            type="text/javascript"
+            src="../js/jquery-1.4.2.min.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shCore.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushJScript.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushPhp.js">
+        </script>
+        <script
+            type="text/javascript"
+            src="../syntax_highlighter/scripts/shBrushXml.js">
+        </script>
+        <link
+            href="../syntax_highlighter/styles/shCore.css" rel="stylesheet"
+            type="text/css"
+        />
+        <link
+            href="../syntax_highlighter/styles/shCoreEclipse.css"
+            rel="stylesheet" type="text/css"
+        />
+        <link
+            href="../syntax_highlighter/styles/shThemeWordpress.css"
+            rel="stylesheet" type="text/css"
+        />
+    </head>
+    <body>
+        <pre class="brush: php">&lt;?php
+
+/**
+ * Interface for Danga's Gearman job scheduling system
+ *
+ * PHP version 5.1.0+
+ *
+ * LICENSE: This source file is subject to the New BSD license that is
+ * available through the world-wide-web at the following URI:
+ * http://www.opensource.org/licenses/bsd-license.php. If you did not receive
+ * a copy of the New BSD License and are unable to obtain it through the web,
+ * please send a note to license@php.net so we can mail you a copy immediately.
+ *
+ * @category  Net
+ * @package   ShSo\Net\Gearman
+ * @author    Joe Stump &lt;joe@joestump.net&gt;
+ * @copyright 2007-2008 Digg.com, Inc.
+ * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @version   CVS: $Id$
+ * @link      http://pear.php.net/package/Net_Gearman
+ * @link      http://www.danga.com/gearman/
+ */
+
+namespace ShSo\Net\Gearman;
+
+use Countable;
+use IteratorAggregate;
+
+/**
+ * A class for creating sets of tasks
+ *
+ * &lt;code&gt;
+ * &lt;?php
+ * require_once 'Net/Gearman/Client.php';
+ *
+ * // This is the callback function for our tasks
+ * function echoResult($result) {
+ *     echo 'The result was: ' . $result . &quot;\n&quot;;
+ * }
+ *
+ * // Job name is the key, arguments to job are in the value array
+ * $jobs = array(
+ *     'AddTwoNumbers' =&gt; array('1', '2'),
+ *     'Multiply' =&gt; array('3', '4')
+ * );
+ *
+ * $set = new ShSo\Net\Gearman\Set();
+ * foreach ($jobs as $job =&gt; $args) {
+ *     $task = new ShSo\Net\Gearman\Task($job, $args);
+ *     $task-&gt;attachCallback('echoResult');
+ *     $set-&gt;addTask($task);
+ * }
+ *
+ * $client = new ShSo\Net\Gearman\Client(array(
+ *     '127.0.0.1:7003', '127.0.0.1:7004'
+ * ));
+ *
+ * $client-&gt;runSet($set);
+ *
+ * ?&gt;
+ * &lt;/code&gt;
+ *
+ * @category  Net
+ * @package   ShSo\Net\Gearman
+ * @author    Joe Stump &lt;joe@joestump.net&gt;
+ * @copyright 2007-2008 Digg.com, Inc.
+ * @license   http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * @version   Release: @package_version@
+ * @link      http://www.danga.com/gearman/
+ * @see       ShSo\Net\Gearman\Job\Common, ShSo\Net\Gearman\Worker
+ */
+class Set implements IteratorAggregate, Countable
+{
+    /**
+     * Tasks count
+     *
+     * @var integer $tasksCount
+     */
+    public $tasksCount = 0;
+
+    /**
+     * Tasks to run
+     *
+     * @var array $tasks
+     */
+    public $tasks = array();
+
+    /**
+     * Handle to task mapping
+     *
+     * @var array $handles
+     */
+    public $handles = array();
+
+    /**
+     * Callback registered for set
+     *
+     * @var mixed $callback
+     */
+    protected $callback = null;
+
+    /**
+     * Constructor
+     *
+     * @param array $tasks Array of tasks to run
+     *
+     * @return void
+     * @see ShSo\Net\Gearman\Task
+     */
+    public function __construct(array $tasks = array())
+    {
+        foreach ($tasks as $task) {
+            $this-&gt;addTask($task);
+        }
+    }
+
+    /**
+     * Add a task to the set
+     *
+     * @param object $task Task to add to the set
+     *
+     * @return void
+     * @see ShSo\Net\Gearman\Task, ShSo\Net\Gearman\Set::$tasks
+     */
+    public function addTask(Task $task)
+    {
+        if (!isset($this-&gt;tasks[$task-&gt;uniq])) {
+            $this-&gt;tasks[$task-&gt;uniq] = $task;
+            $this-&gt;tasksCount++;
+        }
+    }
+
+    /**
+     * Get a task
+     *
+     * @param string $handle Handle of task to get
+     *
+     * @return object Instance of task
+     * @throws ShSo\Net\Gearman\Exception
+     */
+    public function getTask($handle)
+    {
+        if (!isset($this-&gt;handles[$handle])) {
+            throw new Exception('Unknown handle');
+        }
+
+        if (!isset($this-&gt;tasks[$this-&gt;handles[$handle]])) {
+            throw new Exception('No task by that handle');
+        }
+
+        return $this-&gt;tasks[$this-&gt;handles[$handle]];
+    }
+
+    /**
+     * Is this set finished running?
+     *
+     * This function will return true if all of the tasks in the set have
+     * finished running. If they have we also run the set callbacks if there
+     * is one.
+     *
+     * @return boolean
+     */
+    public function finished()
+    {
+        if ($this-&gt;tasksCount == 0) {
+            if (isset($this-&gt;callback)) {
+                foreach ($this-&gt;tasks as $task) {
+                    $results[] = $task-&gt;result;
+                }
+
+                call_user_func($this-&gt;callback, $results);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Attach a callback to this set
+     *
+     * @param callback $callback A valid PHP callback
+     *
+     * @return void
+     * @throws ShSo\Net\Gearman\Exception
+     */
+    public function attachCallback($callback)
+    {
+        if (!is_callable($callback)) {
+            throw new Exception('Invalid callback specified');
+        }
+
+        $this-&gt;callback = $callback;
+    }
+
+    /**
+     * Get the iterator
+     *
+     * @return ArrayIterator Tasks
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this-&gt;tasks);
+    }
+
+    /**
+     * Get the task count
+     *
+     * @return int Number of tasks in the set
+     * @see    {@link Countable::count()}
+     */
+    public function count()
+    {
+        return $this-&gt;tasksCount;
+    }
+}
+
+?&gt;
+</pre>
+        <script type="text/javascript">
+             SyntaxHighlighter.all();
+             jQuery('.gutter div').each(function(key, data){
+                jQuery(data).prepend('<a name="L'+jQuery(data).text()+'"/>');
+             });
+        </script>
+    </body>
+</html>

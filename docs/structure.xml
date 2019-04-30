@@ -1,0 +1,2374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project title="ShSo\Net\Gearman" version="2.8.5">
+  <partials/>
+  <file path="Task.php" generated-path="Task.html" hash="ca7c5868eeeafd6695cf44ac563f1411" package="ShSo\Net\Gearman">
+    <docblock line="0">
+      <description>Interface for Danga's Gearman job scheduling system</description>
+      <long-description>PHP version 5.1.0+
+
+LICENSE: This source file is subject to the New BSD license that is
+available through the world-wide-web at the following URI:
+http://www.opensource.org/licenses/bsd-license.php. If you did not receive
+a copy of the New BSD License and are unable to obtain it through the web,
+please send a note to license@php.net so we can mail you a copy immediately.</long-description>
+      <tag name="category" line="0" description="Net"/>
+      <tag name="package" line="0" description="ShSo\Net\Gearman"/>
+      <tag name="author" line="0" description="Joe Stump" link="mailto:joe@joestump.net"/>
+      <tag name="copyright" line="0" description="2007-2008 Digg.com, Inc."/>
+      <tag name="license" line="0" description="New BSD License" link="http://www.opensource.org/licenses/bsd-license.php"/>
+      <tag name="version" line="0" description="CVS: $Id$"/>
+      <tag name="link" line="0" description="http://pear.php.net/package/Net_Gearman" link="http://pear.php.net/package/Net_Gearman"/>
+      <tag name="link" line="0" description="http://www.danga.com/gearman/" link="http://www.danga.com/gearman/"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="ShSo\Net\Gearman" line="37" package="ShSo\Net\Gearman">
+      <extends/>
+      <name>Task</name>
+      <full_name>\ShSo\Net\Gearman\Task</full_name>
+      <docblock line="37">
+        <description>Task class for creating ShSo\Net\Gearman tasks</description>
+        <long-description></long-description>
+        <tag name="category" line="37" description="Net"/>
+        <tag name="package" line="37" description="ShSo\Net\Gearman"/>
+        <tag name="author" line="37" description="Joe Stump" link="mailto:joe@joestump.net"/>
+        <tag name="copyright" line="37" description="2007-2008 Digg.com, Inc."/>
+        <tag name="license" line="37" description="New BSD License" link="http://www.opensource.org/licenses/bsd-license.php"/>
+        <tag name="version" line="37" description="Release: @package_version@"/>
+        <tag name="link" line="37" description="http://www.danga.com/gearman/" link="http://www.danga.com/gearman/"/>
+        <tag name="see" line="37" description="ShSo\Net\Gearman\Client" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Set,"/>
+      </docblock>
+      <constant namespace="ShSo\Net\Gearman" line="135" package="ShSo\Net\Gearman">
+        <name>JOB_NORMAL</name>
+        <full_name>\ShSo\Net\Gearman\Task::JOB_NORMAL</full_name>
+        <value>1</value>
+        <docblock line="135">
+          <description>Normal job</description>
+          <long-description>Normal jobs are ran against a worker with the result being returned
+all in the same thread (e.g. Your page will sit there waiting for the
+job to finish and return it's result).</long-description>
+          <tag name="var" line="135" description="&lt;p&gt;JOB_NORMAL&lt;/p&gt;" type="integer" variable="">
+            <type>integer</type>
+          </tag>
+        </docblock>
+      </constant>
+      <constant namespace="ShSo\Net\Gearman" line="145" package="ShSo\Net\Gearman">
+        <name>JOB_BACKGROUND</name>
+        <full_name>\ShSo\Net\Gearman\Task::JOB_BACKGROUND</full_name>
+        <value>2</value>
+        <docblock line="145">
+          <description>Background job</description>
+          <long-description>Background jobs in Gearman are "fire and forget". You can check a job's
+status periodically, but you can't get a result back from it.</long-description>
+          <tag name="var" line="145" description="&lt;p&gt;JOB_BACKGROUND&lt;/p&gt;" type="integer" variable="">
+            <type>integer</type>
+          </tag>
+        </docblock>
+      </constant>
+      <constant namespace="ShSo\Net\Gearman" line="152" package="ShSo\Net\Gearman">
+        <name>JOB_HIGH</name>
+        <full_name>\ShSo\Net\Gearman\Task::JOB_HIGH</full_name>
+        <value>3</value>
+        <docblock line="152">
+          <description>High priority job</description>
+          <long-description></long-description>
+          <tag name="var" line="152" description="&lt;p&gt;JOB_HIGH&lt;/p&gt;" type="integer" variable="">
+            <type>integer</type>
+          </tag>
+        </docblock>
+      </constant>
+      <constant namespace="ShSo\Net\Gearman" line="159" package="ShSo\Net\Gearman">
+        <name>JOB_HIGH_BACKGROUND</name>
+        <full_name>\ShSo\Net\Gearman\Task::JOB_HIGH_BACKGROUND</full_name>
+        <value>4</value>
+        <docblock line="159">
+          <description>High priority, background job</description>
+          <long-description></long-description>
+          <tag name="var" line="159" description="&lt;p&gt;JOB_HIGH&lt;/p&gt;" type="integer" variable="">
+            <type>integer</type>
+          </tag>
+        </docblock>
+      </constant>
+      <constant namespace="ShSo\Net\Gearman" line="166" package="ShSo\Net\Gearman">
+        <name>JOB_LOW</name>
+        <full_name>\ShSo\Net\Gearman\Task::JOB_LOW</full_name>
+        <value>5</value>
+        <docblock line="166">
+          <description>LOW priority job</description>
+          <long-description></long-description>
+          <tag name="var" line="166" description="&lt;p&gt;JOB_LOW&lt;/p&gt;" type="integer" variable="">
+            <type>integer</type>
+          </tag>
+        </docblock>
+      </constant>
+      <constant namespace="ShSo\Net\Gearman" line="173" package="ShSo\Net\Gearman">
+        <name>JOB_LOW_BACKGROUND</name>
+        <full_name>\ShSo\Net\Gearman\Task::JOB_LOW_BACKGROUND</full_name>
+        <value>6</value>
+        <docblock line="173">
+          <description>Low priority, background job</description>
+          <long-description></long-description>
+          <tag name="var" line="173" description="&lt;p&gt;JOB_LOW_BACKGROUND&lt;/p&gt;" type="integer" variable="">
+            <type>integer</type>
+          </tag>
+        </docblock>
+      </constant>
+      <constant namespace="ShSo\Net\Gearman" line="184" package="ShSo\Net\Gearman">
+        <name>TASK_COMPLETE</name>
+        <full_name>\ShSo\Net\Gearman\Task::TASK_COMPLETE</full_name>
+        <value>1</value>
+        <docblock line="184">
+          <description>Callback of type complete</description>
+          <long-description>The callback provided should be ran when the task has been completed. It
+will be handed the result of the task as its only argument.</long-description>
+          <tag name="var" line="184" description="&lt;p&gt;TASK_COMPLETE&lt;/p&gt;" type="integer" variable="">
+            <type>integer</type>
+          </tag>
+          <tag name="see" line="184" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task::complete()"/>
+        </docblock>
+      </constant>
+      <constant namespace="ShSo\Net\Gearman" line="195" package="ShSo\Net\Gearman">
+        <name>TASK_FAIL</name>
+        <full_name>\ShSo\Net\Gearman\Task::TASK_FAIL</full_name>
+        <value>2</value>
+        <docblock line="195">
+          <description>Callback of type fail</description>
+          <long-description>The callback provided should be ran when the task has been reported to
+have failed by Gearman. No arguments are provided.</long-description>
+          <tag name="var" line="195" description="&lt;p&gt;TASK_FAIL&lt;/p&gt;" type="integer" variable="">
+            <type>integer</type>
+          </tag>
+          <tag name="see" line="195" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task::fail()"/>
+        </docblock>
+      </constant>
+      <constant namespace="ShSo\Net\Gearman" line="207" package="ShSo\Net\Gearman">
+        <name>TASK_STATUS</name>
+        <full_name>\ShSo\Net\Gearman\Task::TASK_STATUS</full_name>
+        <value>3</value>
+        <docblock line="207">
+          <description>Callback of type status</description>
+          <long-description>The callback provided should be ran whenever the status of the task has
+been updated. The numerator and denominator are passed as the only
+two arguments.</long-description>
+          <tag name="var" line="207" description="&lt;p&gt;TASK_STATUS&lt;/p&gt;" type="integer" variable="">
+            <type>integer</type>
+          </tag>
+          <tag name="see" line="207" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task::status()"/>
+        </docblock>
+      </constant>
+      <property static="false" visibility="public" namespace="ShSo\Net\Gearman" line="44" package="ShSo\Net\Gearman">
+        <name>$func</name>
+        <full_name>\ShSo\Net\Gearman\Task::func</full_name>
+        <default>''</default>
+        <docblock line="44">
+          <description>The function/job to run</description>
+          <long-description></long-description>
+          <tag name="var" line="44" description="" type="string" variable="$func">
+            <type>string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property static="false" visibility="public" namespace="ShSo\Net\Gearman" line="51" package="ShSo\Net\Gearman">
+        <name>$arg</name>
+        <full_name>\ShSo\Net\Gearman\Task::arg</full_name>
+        <default>array()</default>
+        <docblock line="51">
+          <description>Arguments to pass to function/job</description>
+          <long-description></long-description>
+          <tag name="var" line="51" description="" type="array" variable="$arg">
+            <type>array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property static="false" visibility="public" namespace="ShSo\Net\Gearman" line="68" package="ShSo\Net\Gearman">
+        <name>$type</name>
+        <full_name>\ShSo\Net\Gearman\Task::type</full_name>
+        <default>self::JOB_NORMAL</default>
+        <docblock line="68">
+          <description>Type of job</description>
+          <long-description>Which type of job you wish this task to be ran as. Keep in mind that
+background jobs are "fire and forget" and DO NOT return results to the
+job server in a manner that you can actually retrieve.</long-description>
+          <tag name="var" line="68" description="" type="integer" variable="$type">
+            <type>integer</type>
+          </tag>
+          <tag name="see" line="68" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task::JOB_NORMAL"/>
+          <tag name="see" line="68" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task::JOB_BACKGROUND"/>
+          <tag name="see" line="68" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task::JOB_HIGH"/>
+          <tag name="see" line="68" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task::JOB_HIGH_BACKGROUND"/>
+          <tag name="see" line="68" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task::JOB_LOW"/>
+          <tag name="see" line="68" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task::JOB_LOW_BACKGROUND"/>
+        </docblock>
+      </property>
+      <property static="false" visibility="public" namespace="ShSo\Net\Gearman" line="76" package="ShSo\Net\Gearman">
+        <name>$handle</name>
+        <full_name>\ShSo\Net\Gearman\Task::handle</full_name>
+        <default>''</default>
+        <docblock line="76">
+          <description>Handle returned from job server</description>
+          <long-description></long-description>
+          <tag name="var" line="76" description="" type="string" variable="$handle">
+            <type>string</type>
+          </tag>
+          <tag name="see" line="76" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Client"/>
+        </docblock>
+      </property>
+      <property static="false" visibility="public" namespace="ShSo\Net\Gearman" line="92" package="ShSo\Net\Gearman">
+        <name>$uniq</name>
+        <full_name>\ShSo\Net\Gearman\Task::uniq</full_name>
+        <default>''</default>
+        <docblock line="92">
+          <description>The unique identifier for this job</description>
+          <long-description>Keep in mind that a unique job is only unique to the job server it is
+submitted to. Gearman servers don't communicate with each other to
+ensure a job is unique across all workers.
+
+That being said, Gearman does group identical jobs sent to it and runs
+that job only once. If you send the job Sum with args 1, 2, 3 to the
+server 10 times in a second Gearman will only run that job once and then
+return the result 10 times.</long-description>
+          <tag name="var" line="92" description="" type="string" variable="$uniq">
+            <type>string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property static="false" visibility="public" namespace="ShSo\Net\Gearman" line="102" package="ShSo\Net\Gearman">
+        <name>$finished</name>
+        <full_name>\ShSo\Net\Gearman\Task::finished</full_name>
+        <default>false</default>
+        <docblock line="102">
+          <description>Is this task finished?</description>
+          <long-description></long-description>
+          <tag name="var" line="102" description="" type="boolean" variable="$finished">
+            <type>boolean</type>
+          </tag>
+          <tag name="see" line="102" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Set::finished()"/>
+          <tag name="see" line="102" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task::complete()"/>
+          <tag name="see" line="102" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task::fail()"/>
+        </docblock>
+      </property>
+      <property static="false" visibility="public" namespace="ShSo\Net\Gearman" line="109" package="ShSo\Net\Gearman">
+        <name>$result</name>
+        <full_name>\ShSo\Net\Gearman\Task::result</full_name>
+        <default>''</default>
+        <docblock line="109">
+          <description>The result returned from the worker</description>
+          <long-description></long-description>
+          <tag name="var" line="109" description="" type="object" variable="$result">
+            <type>object</type>
+          </tag>
+        </docblock>
+      </property>
+      <property static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="120" package="ShSo\Net\Gearman">
+        <name>$callback</name>
+        <full_name>\ShSo\Net\Gearman\Task::callback</full_name>
+        <default>array(self::TASK_COMPLETE =&gt; array(), self::TASK_FAIL =&gt; array(), self::TASK_STATUS =&gt; array())</default>
+        <docblock line="120">
+          <description>Callbacks registered for each state</description>
+          <long-description></long-description>
+          <tag name="var" line="120" description="" type="array" variable="$callback">
+            <type>array</type>
+          </tag>
+          <tag name="see" line="120" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task::attachCallback()"/>
+          <tag name="see" line="120" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task::complete()"/>
+          <tag name="see" line="120" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task::status()"/>
+          <tag name="see" line="120" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task::fail()"/>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="220" package="ShSo\Net\Gearman">
+        <name>__construct</name>
+        <full_name>\ShSo\Net\Gearman\Task::__construct()</full_name>
+        <docblock line="220">
+          <description>Constructor</description>
+          <long-description></long-description>
+          <tag name="param" line="220" description="&lt;p&gt;Name of job to run&lt;/p&gt;" type="string" variable="$func">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="220" description="&lt;p&gt;List of arguments for job&lt;/p&gt;" type="mixed" variable="$arg">
+            <type>mixed</type>
+          </tag>
+          <tag name="param" line="220" description="&lt;p&gt;The unique id of the job&lt;/p&gt;" type="string" variable="$uniq">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="220" description="&lt;p&gt;Type of job to run task as&lt;/p&gt;" type="integer" variable="$type">
+            <type>integer</type>
+          </tag>
+          <tag name="return" line="220" description="" type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Task</type>
+          </tag>
+          <tag name="throws" line="220" description="" type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$func</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$arg</name>
+          <default></default>
+          <type>mixed</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$uniq</name>
+          <default>null</default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$type</name>
+          <default>self::JOB_NORMAL</default>
+          <type>integer</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="252" package="ShSo\Net\Gearman">
+        <name>attachCallback</name>
+        <full_name>\ShSo\Net\Gearman\Task::attachCallback()</full_name>
+        <docblock line="252">
+          <description>Attach a callback to this task</description>
+          <long-description></long-description>
+          <tag name="param" line="252" description="&lt;p&gt;A valid PHP callback&lt;/p&gt;" type="callback" variable="$callback">
+            <type>callback</type>
+          </tag>
+          <tag name="param" line="252" description="&lt;p&gt;Type of callback&lt;/p&gt;" type="integer" variable="$type">
+            <type>integer</type>
+          </tag>
+          <tag name="return" line="252" description="" type="\ShSo\Net\Gearman\Task">
+            <type>\ShSo\Net\Gearman\Task</type>
+          </tag>
+          <tag name="throws" line="252" description="When the callback is invalid." type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+          <tag name="throws" line="252" description="When the callback's type is invalid." type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+          <tag name="fluent" description="This method is part of a fluent interface and will return the same instance"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$callback</name>
+          <default></default>
+          <type>callback</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$type</name>
+          <default>self::TASK_COMPLETE</default>
+          <type>integer</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="274" package="ShSo\Net\Gearman">
+        <name>getCallbacks</name>
+        <full_name>\ShSo\Net\Gearman\Task::getCallbacks()</full_name>
+        <docblock line="274">
+          <description>Return all callbacks.</description>
+          <long-description></long-description>
+          <tag name="return" line="274" description="" type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="290" package="ShSo\Net\Gearman">
+        <name>complete</name>
+        <full_name>\ShSo\Net\Gearman\Task::complete()</full_name>
+        <docblock line="290">
+          <description>Run the complete callbacks</description>
+          <long-description>Complete callbacks are passed the name of the job, the handle of the
+job and the result of the job (in that order).</long-description>
+          <tag name="param" line="290" description="&lt;p&gt;JSON decoded result passed back&lt;/p&gt;" type="object" variable="$result">
+            <type>object</type>
+          </tag>
+          <tag name="return" line="290" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="see" line="290" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task::attachCallback()"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$result</name>
+          <default></default>
+          <type>object</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="312" package="ShSo\Net\Gearman">
+        <name>fail</name>
+        <full_name>\ShSo\Net\Gearman\Task::fail()</full_name>
+        <docblock line="312">
+          <description>Run the failure callbacks</description>
+          <long-description>Failure callbacks are passed the task object job that failed</long-description>
+          <tag name="return" line="312" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="see" line="312" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task::attachCallback()"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="336" package="ShSo\Net\Gearman">
+        <name>status</name>
+        <full_name>\ShSo\Net\Gearman\Task::status()</full_name>
+        <docblock line="336">
+          <description>Run the status callbacks</description>
+          <long-description>Status callbacks are passed the name of the job, handle of the job and
+the numerator/denominator as the arguments (in that order).</long-description>
+          <tag name="param" line="336" description="&lt;p&gt;The numerator from the status&lt;/p&gt;" type="integer" variable="$numerator">
+            <type>integer</type>
+          </tag>
+          <tag name="param" line="336" description="&lt;p&gt;The denominator from the status&lt;/p&gt;" type="integer" variable="$denominator">
+            <type>integer</type>
+          </tag>
+          <tag name="return" line="336" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="see" line="336" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task::attachCallback()"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$numerator</name>
+          <default></default>
+          <type>integer</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$denominator</name>
+          <default></default>
+          <type>integer</type>
+        </argument>
+      </method>
+    </class>
+    <source>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</source>
+  </file>
+  <file path="Job/Common.php" generated-path="Job.Common.html" hash="8adb3b48bc9d1055212421207cc7daea" package="ShSo\Net\Gearman">
+    <docblock line="0">
+      <description>Interface for Danga's Gearman job scheduling system</description>
+      <long-description>PHP version 5.1.0+
+
+LICENSE: This source file is subject to the New BSD license that is
+available through the world-wide-web at the following URI:
+http://www.opensource.org/licenses/bsd-license.php. If you did not receive
+a copy of the New BSD License and are unable to obtain it through the web,
+please send a note to license@php.net so we can mail you a copy immediately.</long-description>
+      <tag name="category" line="0" description="Net"/>
+      <tag name="package" line="0" description="ShSo\Net\Gearman"/>
+      <tag name="author" line="0" description="Joe Stump" link="mailto:joe@joestump.net"/>
+      <tag name="copyright" line="0" description="2007-2008 Digg.com, Inc."/>
+      <tag name="license" line="0" description="New BSD License" link="http://www.opensource.org/licenses/bsd-license.php"/>
+      <tag name="version" line="0" description="CVS: $Id$"/>
+      <tag name="link" line="0" description="http://pear.php.net/package/Net_Gearman" link="http://pear.php.net/package/Net_Gearman"/>
+      <tag name="link" line="0" description="http://www.danga.com/gearman/" link="http://www.danga.com/gearman/"/>
+    </docblock>
+    <namespace-alias name="Connection">\ShSo\Net\Gearman\Connection</namespace-alias>
+    <class final="false" abstract="true" namespace="ShSo\Net\Gearman\Job" line="40" package="ShSo\Net\Gearman">
+      <extends/>
+      <name>Common</name>
+      <full_name>\ShSo\Net\Gearman\Job\Common</full_name>
+      <docblock line="40">
+        <description>Base job class for all Gearman jobs</description>
+        <long-description></long-description>
+        <tag name="category" line="40" description="Net"/>
+        <tag name="package" line="40" description="ShSo\Net\Gearman"/>
+        <tag name="author" line="40" description="Joe Stump" link="mailto:joe@joestump.net"/>
+        <tag name="copyright" line="40" description="2007-2008 Digg.com, Inc."/>
+        <tag name="license" line="40" description="New BSD License" link="http://www.opensource.org/licenses/bsd-license.php"/>
+        <tag name="version" line="40" description="Release: @package_version@"/>
+        <tag name="link" line="40" description="http://www.danga.com/gearman/" link="http://www.danga.com/gearman/"/>
+        <tag name="see" line="40" description="ShSo\Net\Gearman\Worker" link="\ShSo\Net\Gearman\Job\ShSo\Net\Gearman\Job\Common,"/>
+      </docblock>
+      <property static="false" visibility="protected" namespace="ShSo\Net\Gearman\Job" line="47" package="ShSo\Net\Gearman">
+        <name>$handle</name>
+        <full_name>\ShSo\Net\Gearman\Job\Common::handle</full_name>
+        <default>''</default>
+        <docblock line="47">
+          <description>Gearman job handle</description>
+          <long-description></long-description>
+          <tag name="var" line="47" description="" type="string" variable="$handle">
+            <type>string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property static="false" visibility="protected" namespace="ShSo\Net\Gearman\Job" line="55" package="ShSo\Net\Gearman">
+        <name>$conn</name>
+        <full_name>\ShSo\Net\Gearman\Job\Common::conn</full_name>
+        <default>null</default>
+        <docblock line="55">
+          <description>Connection to Gearman</description>
+          <long-description></long-description>
+          <tag name="var" line="55" description="" type="resource" variable="$conn">
+            <type>resource</type>
+          </tag>
+          <tag name="see" line="55" description="" link="\ShSo\Net\Gearman\Job\ShSo\Net\Gearman\Connection"/>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman\Job" line="71" package="ShSo\Net\Gearman">
+        <name>__construct</name>
+        <full_name>\ShSo\Net\Gearman\Job\Common::__construct()</full_name>
+        <docblock line="71">
+          <description>Constructor</description>
+          <long-description></long-description>
+          <tag name="param" line="71" description="&lt;p&gt;Connection to communicate with&lt;/p&gt;" type="resource" variable="$conn">
+            <type>resource</type>
+          </tag>
+          <tag name="param" line="71" description="&lt;p&gt;Job ID / handle for this job&lt;/p&gt;" type="string" variable="$handle">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="71" description="&lt;p&gt;initialization parameters&lt;/p&gt;" type="array" variable="$initParams">
+            <type>array</type>
+          </tag>
+          <tag name="return" line="71" description="" type="void">
+            <type>void</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$conn</name>
+          <default></default>
+          <type>resource</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$handle</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$initParams</name>
+          <default>array()</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="true" static="false" visibility="public" namespace="ShSo\Net\Gearman\Job" line="86" package="ShSo\Net\Gearman">
+        <name>run</name>
+        <full_name>\ShSo\Net\Gearman\Job\Common::run()</full_name>
+        <docblock line="86">
+          <description>Run your job here</description>
+          <long-description></long-description>
+          <tag name="param" line="86" description="&lt;p&gt;Arguments passed from the client&lt;/p&gt;" type="array" variable="$arg">
+            <type>array</type>
+          </tag>
+          <tag name="return" line="86" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="throws" line="86" description="" type="\ShSo\Net\Gearman\Job\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\Job\ShSo\Net\Gearman\Exception</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$arg</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman\Job" line="97" package="ShSo\Net\Gearman">
+        <name>status</name>
+        <full_name>\ShSo\Net\Gearman\Job\Common::status()</full_name>
+        <docblock line="97">
+          <description>Update Gearman with your job's status</description>
+          <long-description></long-description>
+          <tag name="param" line="97" description="&lt;p&gt;The numerator (e.g. 1)&lt;/p&gt;" type="integer" variable="$numerator">
+            <type>integer</type>
+          </tag>
+          <tag name="param" line="97" description="&lt;p&gt;The denominator  (e.g. 100)&lt;/p&gt;" type="integer" variable="$denominator">
+            <type>integer</type>
+          </tag>
+          <tag name="return" line="97" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="see" line="97" description="" link="\ShSo\Net\Gearman\Job\ShSo\Net\Gearman\Connection::send()"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$numerator</name>
+          <default></default>
+          <type>integer</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$denominator</name>
+          <default></default>
+          <type>integer</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman\Job" line="119" package="ShSo\Net\Gearman">
+        <name>complete</name>
+        <full_name>\ShSo\Net\Gearman\Job\Common::complete()</full_name>
+        <docblock line="119">
+          <description>Mark your job as complete with its status</description>
+          <long-description>ShSo\Net\Gearman communicates between the client and jobs in JSON. The main
+benefit of this is that we can send fairly complex data types between
+different languages. You should always pass an array as the result to
+this function.</long-description>
+          <tag name="param" line="119" description="&lt;p&gt;Result of your job&lt;/p&gt;" type="array" variable="$result">
+            <type>array</type>
+          </tag>
+          <tag name="return" line="119" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="see" line="119" description="" link="\ShSo\Net\Gearman\Job\ShSo\Net\Gearman\Connection::send()"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$result</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman\Job" line="137" package="ShSo\Net\Gearman">
+        <name>fail</name>
+        <full_name>\ShSo\Net\Gearman\Job\Common::fail()</full_name>
+        <docblock line="137">
+          <description>Mark your job as failing</description>
+          <long-description>If your job fails for some reason (e.g. a query fails) you need to run
+this function and exit from your run() method. This will tell Gearman
+(and the client by proxy) that the job has failed.</long-description>
+          <tag name="return" line="137" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="see" line="137" description="" link="\ShSo\Net\Gearman\Job\ShSo\Net\Gearman\Connection::send()"/>
+        </docblock>
+      </method>
+    </class>
+    <source>eJzlV1Fv2zYQfvevuAcDtjNHzgYMG9ym89oUm4uuK+J2w4ACAS2dJSYSqZFUFG/of98dKcu2lLRrh+1lQhJH5B3vu7vvjufH35VZORjMTk4GcAJL5dBsRIyw0QYuhErFyMIPKEwhFFzrNdg4w6TKpUrBbq3DgtRY8/WPr+EWjZVawdfRl9HZF83Gy+Wz569Wz+fwJpMWrK4Mny5zBH6t1tcYO3AaXIbwCmt4urqAXMaoLNKacCTGx4hbIXOxznnR6CrNvEKtTZ6c1jLB0xrXQNK8utF5rmuG+PZyOWftzLlyPpvVdR3pko72KCJt0lljys7WNjltXiIKSQTLDWx1BYlMQGkHBmOUt+ixQKzLLejNEeiXDWihEhAGoVIBrga9dkIqkO4YO66nfFqZoyA1i6zHprxOA2XBUBQ6ChwpQExZKCgQHlkDQxYFJlI4zLdRE/NFTK+pNlsgdM6vlCK+ESkCwCpb6Xe0/K5Jq98Wlcso4/S80AgrVxUlPL7WuKBfy28M4kk4m4wamWYOvjo7++aU/nwLFzJNo1gXU2JQHHmxXQ7hM4Lfjak/cMcugGe/rOYwXCbDxpC6Af80hkryK2riNmv8npHDV4cO97QYXsKEZz9maRCdkexsMFCiQFtyWXSD9+6FXj8aDCp7z9YzrRSRmzA/agvsKaea6yjOhbW+ykSeH1aY/X/k8BI97eetV1fN3uIT0wMLixhE780OpaEotJr2N3/V5gaNz7BYW2cENaKQlqAy+HPAh/rM8XNy1AgzqvMcm52dwOJWGKCjuPcMjyRm/rM0VN6xw2S3C+cwGhE9Oob21OFe0Ca5b8tg01GHMam0WxySD/DxIUx8BiFSVZ73Mb0WhsqA7odAWwotSGWdUI6az/7QgEsYI7YwlEo6r2dbk/e4SgGrYqdN18GSNTsucvkfBYfoUFRKcrVALV3W0W6SAW3AGffyAmZNAr0vjq8mSmpHt+cE8L9S5PIP7zGUbUi60A26yii41TI5Dna1phqBTaWCA1dX8c7/sfdvugM67Zs/9yvjycQfFdjJz5Dxnz5pwnMeAvWou90SrjHQEzjw8/zQbBB838vcZaX4HjKhHND0iuEoisKk8L1JqwKVsxQ5a4lxG6MLfxnGuaT1j0cRFnyF1rbP7ud3MZY9creF3Q28qdSYMU36RH9bJkymXbEzqVo/aRoiyruql/Dgq6T5KUUDQ0V+GuF8O35D/u3fxxilEXw5eUgzQaULqbwsax6+75TPziZ/J1Qf6QLzOc8c48kHCRq8He8dmh5B7FKxd/oBN6cwonnt5iocOWoIPm51+RkFbo7g/Mkxb6fHYi2cILlHdyx2gDQIHiy0kpPJQwz/SZibPcWF5WZD41rTaWige4AN3aAfNikLa3Q1ojrgvZ8Z+e4nGsCL1c+vIp96mvTarrpGhRuaIP3QSd2Kfvx03AyFfnrcCGnybQPyDojFAty23JvcHZbIzYbqlQzndKVWdPvaCH6jkdJmusppDM1rsQ1FStCaChbWI6Z2XOU8se8O83B2fIk+2AMa3cvwoTdtbP8rNu/yNz4C9Dkk3p30z2gc7Huxa6vVFapYJzg+wvWJFCUS8LezTkSX+1h7iXCHW11wQgWZblqLgN8rpJnTy0z81wyF1KjpoqWOeW/KPXnxjrjpu7k3w911AnQ1ZjqJwje/WtKcS19S8s44A2PWP6iF9ZZHkrvtJBCcd8K8FXzDpMexf4stbG78OeRgxU8kxj2pfj/4C6kcwV4=</source>
+  </file>
+  <file path="Job.php" generated-path="Job.html" hash="dfd569b32991f1d88a104560a98485ca" package="ShSo\Net\Gearman">
+    <docblock line="0">
+      <description>Interface for Danga's Gearman job scheduling system</description>
+      <long-description>PHP version 5.1.0+
+
+LICENSE: This source file is subject to the New BSD license that is
+available through the world-wide-web at the following URI:
+http://www.opensource.org/licenses/bsd-license.php. If you did not receive
+a copy of the New BSD License and are unable to obtain it through the web,
+please send a note to license@php.net so we can mail you a copy immediately.</long-description>
+      <tag name="category" line="0" description="Net"/>
+      <tag name="package" line="0" description="ShSo\Net\Gearman"/>
+      <tag name="author" line="0" description="Joe Stump" link="mailto:joe@joestump.net"/>
+      <tag name="copyright" line="0" description="2007-2008 Digg.com, Inc."/>
+      <tag name="license" line="0" description="New BSD License" link="http://www.opensource.org/licenses/bsd-license.php"/>
+      <tag name="version" line="0" description="CVS: $Id$"/>
+      <tag name="link" line="0" description="http://pear.php.net/package/Net_Gearman" link="http://pear.php.net/package/Net_Gearman"/>
+      <tag name="link" line="0" description="http://www.danga.com/gearman/" link="http://www.danga.com/gearman/"/>
+    </docblock>
+    <constant namespace="" line="27" package="ShSo\Net\Gearman">
+      <name>NET_GEARMAN_JOB_CLASS_PREFIX</name>
+      <full_name>\NET_GEARMAN_JOB_CLASS_PREFIX</full_name>
+      <value>''</value>
+      <docblock line="27">
+        <description></description>
+        <long-description></long-description>
+        <tag name="package" line="27" description="ShSo\Net\Gearman"/>
+      </docblock>
+    </constant>
+    <class final="false" abstract="true" namespace="ShSo\Net\Gearman" line="42" package="ShSo\Net\Gearman">
+      <extends/>
+      <name>Job</name>
+      <full_name>\ShSo\Net\Gearman\Job</full_name>
+      <docblock line="42">
+        <description>Job creation class</description>
+        <long-description></long-description>
+        <tag name="category" line="42" description="Net"/>
+        <tag name="package" line="42" description="ShSo\Net\Gearman"/>
+        <tag name="author" line="42" description="Joe Stump" link="mailto:joe@joestump.net"/>
+        <tag name="copyright" line="42" description="2007-2008 Digg.com, Inc."/>
+        <tag name="license" line="42" description="New BSD License" link="http://www.opensource.org/licenses/bsd-license.php"/>
+        <tag name="link" line="42" description="http://www.danga.com/gearman/" link="http://www.danga.com/gearman/"/>
+        <tag name="version" line="42" description="Release: @package_version@"/>
+        <tag name="see" line="42" description="ShSo\Net\Gearman\Worker" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Job\Common,"/>
+      </docblock>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="ShSo\Net\Gearman" line="61" package="ShSo\Net\Gearman">
+        <name>factory</name>
+        <full_name>\ShSo\Net\Gearman\Job::factory()</full_name>
+        <docblock line="61">
+          <description>Create an instance of a job</description>
+          <long-description>The ShSo\Net\Geraman\Worker class creates connections to multiple job servers
+and then fires off jobs using this function. It hands off the connection
+which made the request for the job so that the job can communicate its
+status from there on out.</long-description>
+          <tag name="param" line="61" description="&lt;p&gt;Name of job (func in Gearman terms)&lt;/p&gt;" type="string" variable="$job">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="61" description="&lt;p&gt;Instance of ShSo\Net\Gearman\Connection&lt;/p&gt;" type="object" variable="$conn">
+            <type>object</type>
+          </tag>
+          <tag name="param" line="61" description="&lt;p&gt;Gearman job handle of job&lt;/p&gt;" type="string" variable="$handle">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="61" description="&lt;p&gt;initialisation parameters for job&lt;/p&gt;" type="string" variable="$initParams">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="61" description="Instance of ShSo\Net\Gearman\Job\Common child" type="object">
+            <type>object</type>
+          </tag>
+          <tag name="see" line="61" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Job\Common"/>
+          <tag name="throws" line="61" description="" type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$job</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$conn</name>
+          <default></default>
+          <type>object</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$handle</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$initParams</name>
+          <default>array()</default>
+          <type>string</type>
+        </argument>
+      </method>
+    </class>
+    <source>eJzdVl1v4zYQfPev2AIBbKeOlBYorkgubXKO7+pD6gZx+vEQwKCltcVEIlWSimIc7r93l5QUx8alhz5WQGKT2l0OZ4dDv/25zMpeLz487MEhTJVDsxIJwkobuBRqLfoWPqAwhVBwr5dgkwzTKpdqDXZjHRaUxpnXv1zDIxortYIfou+i42+bF1fT8WQ2n5zAbSYtWF0Zri5zBB5Wy3tMHDgNLkOYYQ3v5peQywSVRZoTjsK4jHgUMhfLnCeNrtaZT6i1ydOjWqZ4VOMSKJpnVzrPdc0Qf7+ZnnB25lx5Esd1XUe6pNIeRaTNOm6WsvHSpkfNICJKIpiuYKMrSGUKSjswmKB8RI8FEl1uQK9egL5qQAuVgjAIlQpwNeilE1KBdC+x43LE1cocBaVZ5Dxeyuc0UM4ZikJHxFECJNSFgojwyBoYsigwlcJhvokazs8TGq612QChc36mFMmDWCMAzLO5vqPpu6at/rWoXEYdp+ejRpi7qijh7b3Gc/qzPGIQP4XatKiR68zB98fHb47o349wKdfrKNHFiBSURD6s7SH8B/J3OfUFW3UBjP+Yn8DBND1oFlIP4J9moZL2FTW8xc2+Y9rwYnvDe1kML2XB8z7idQiNKTbu9ZQo0JZ8LHbJO+3FMVziSioWJilaBtXUQjn+YojPpeWGZuKRtAGloeAnUtPflTRYoHI9Shl8k/oa6aA/m9wuPkwubn69mC0+/vZuMb66mM8X1zeT99O/+sMhfOox6BD+L9Ej6PeHp73P3fEmLJAYFI55THJh7f9ZMF/f4m1x3aA/jycdA4vm3bkPtIih5h4td8Tu3VgXhVaj/Zd/avOAxstJLK0zglzPd4Cb0gtN9V3i5xDG3CX2EpDKOqFIemQ3gi24CWkjb7MXqjTiebVmAd9xpE+tFJktbcULsqhyJ8l8gq2j4W22RdnDyKMUGbWhTL1acZSFyrKreqGvKuVrkVE6ErdKQxg72/NCbb06k0lGzpWiD2D1k0r8JcNjj0AHu2/HbHXUpqJSksVJ7tmhI0JcRQiMLjicvJY6pysX7VBDHSQ6KNww6gOuSs+MDjOTycMB74Io7q44uv4KO9wpoMMldcD7ovnpVkf2+jze2/sOCqaKSN++U5upgOkLaVJJd80zZDH0VYpc2nCOfRwScOv53FfIuUFXGdVu41X4zxqGJJN52tVg3b8S3cXxDVfb/dDJU4LlFi2x/+ROygTKakmHuZMU0C8QR2Y04JaNAu+jlrnRNhdnwhixGQxDx8Ip4ucgKP8MXvNHiLwmTrssb8Q+c4FP0jo7CHU6120fv0lQ5DnMQLe1QX+qHqkxaTBaTmX/bbPIhzt83ak+82XCOoNXdjrcgflcof1C7Xzux1cjZqSSjy7VCdjdpsQvwG6E1K0dgj7TDfMPX2pDuQ==</source>
+  </file>
+  <file path="Job/Exception.php" generated-path="Job.Exception.html" hash="c7575fc5c6181ae029c218f1b2fbdc0d" package="ShSo\Net\Gearman">
+    <docblock line="0">
+      <description>Interface for Danga's Gearman job scheduling system</description>
+      <long-description>PHP version 5.1.0+
+
+LICENSE: This source file is subject to the New BSD license that is
+available through the world-wide-web at the following URI:
+http://www.opensource.org/licenses/bsd-license.php. If you did not receive
+a copy of the New BSD License and are unable to obtain it through the web,
+please send a note to license@php.net so we can mail you a copy immediately.</long-description>
+      <tag name="category" line="0" description="Net"/>
+      <tag name="package" line="0" description="ShSo\Net\Gearman"/>
+      <tag name="author" line="0" description="Joe Stump" link="mailto:joe@joestump.net"/>
+      <tag name="copyright" line="0" description="2007-2008 Digg.com, Inc."/>
+      <tag name="license" line="0" description="New BSD License" link="http://www.opensource.org/licenses/bsd-license.php"/>
+      <tag name="version" line="0" description="CVS: $Id$"/>
+      <tag name="link" line="0" description="http://pear.php.net/package/Net_Gearman" link="http://pear.php.net/package/Net_Gearman"/>
+      <tag name="link" line="0" description="http://www.danga.com/gearman/" link="http://www.danga.com/gearman/"/>
+    </docblock>
+    <namespace-alias name="GearmanException">\ShSo\Net\Gearman\Exception</namespace-alias>
+    <class final="false" abstract="false" namespace="ShSo\Net\Gearman\Job" line="43" package="ShSo\Net\Gearman">
+      <extends>\ShSo\Net\Gearman\Exception</extends>
+      <name>Exception</name>
+      <full_name>\ShSo\Net\Gearman\Job\Exception</full_name>
+      <docblock line="43">
+        <description>Exception class for Gearman jobs</description>
+        <long-description>Your Gearman jobs should throw this from their run() method if they run
+into any kind of error.</long-description>
+        <tag name="category" line="43" description="Net"/>
+        <tag name="package" line="43" description="ShSo\Net\Gearman"/>
+        <tag name="author" line="43" description="Joe Stump" link="mailto:joe@joestump.net"/>
+        <tag name="copyright" line="43" description="2007-2008 Digg.com, Inc."/>
+        <tag name="license" line="43" description="New BSD License" link="http://www.opensource.org/licenses/bsd-license.php"/>
+        <tag name="version" line="43" description="Release: @package_version@"/>
+        <tag name="link" line="43" description="http://www.danga.com/gearman/" link="http://www.danga.com/gearman/"/>
+        <tag name="see" line="43" description="ShSo\Net\Gearman\Worker" link="\ShSo\Net\Gearman\Job\ShSo\Net\Gearman\Job\Common,"/>
+        <tag name="inherited_from" description="\ShSo\Net\Gearman\Exception" refers="\ShSo\Net\Gearman\Exception" link="/classes/ShSo.Net.Gearman.Exception.html"/>
+      </docblock>
+    </class>
+    <source>eJzlVG1r2zAQ/u5fcR8K27rG7gZlIy1bWFu2lFJKsxcGgSLLF1uNrTOSXNeM/fedFDVtmn7Zvk5gge71ubvnfPSxrdokyXZ3E9iFqXZoFkIiLMjAidCleGHhMwrTCA03lIOVFRZdrXQJdrAOG3bznpdfLuEWjVWk4SB9k+6/jorz6fHpxex0DF8rZcFSZ3x0VSP4Z5ffoHTgCFyFcIE9fJqdQK0kaossE47NfBhxK1Qt8toLDXVlFRx6MnUx6lWBox5zYGsvXVBdU+8hfruajr135Vw7zrK+71NqOXRAkZIps5jKZrktRvGRcktSmC5goA4KVYAmBwYlqlsMWEBSOwAtNkCfR9BCFyAMQqdXcAkod0JpUG4TO+Z7Plpbo2A3i97Ppwo+EcrEQ9HouHHsAJKn0HAjArIIQzUNFko4rIc09nwi+VmSGYDRuSBphVyKEgFgVs1ozuJ5HGtQi85VPHE+Z4Qwc13TwtEN4YQ/618exIdVbE5qVFk5eLu//27E13s4UWWZSmr2mEEyDWb3M4R/aP7TnoaA9+wCOP4+G8POtNiJifQSwomJWq4rjX3LYt0ZF3z9uOAtLw+v8IT3dWTlyjRj2yxJtGjQtn4tnjZvfkb5YZJ09hnV6Z3E1nnIYr1Da9nheucezGQtrA2b92jjbJzpT27bhhxsRV1dBE71fPM6LQw1nlvKgOn0y1fQII+1ABWYOnihD6U0E0zoAZaKOcc0RmPI/CfkucKwb+N1VddRN/lLXsDEIq5Mn6XF/JiahvTetvIHmSWaQK3VyB8ogHeO/wMWtvgCv+B38gemDd4P</source>
+  </file>
+  <file path="Connection.php" generated-path="Connection.html" hash="dab65ccac2ba69273ec6a4dc42b2ed54" package="ShSo\Net\Gearman">
+    <docblock line="0">
+      <description>Interface for Danga's Gearman job scheduling system</description>
+      <long-description>PHP version 5.1.0+
+
+LICENSE: This source file is subject to the New BSD license that is
+available through the world-wide-web at the following URI:
+http://www.opensource.org/licenses/bsd-license.php. If you did not receive
+a copy of the New BSD License and are unable to obtain it through the web,
+please send a note to license@php.net so we can mail you a copy immediately.</long-description>
+      <tag name="category" line="0" description="Net"/>
+      <tag name="package" line="0" description="ShSo\Net\Gearman"/>
+      <tag name="author" line="0" description="Joe Stump" link="mailto:joe@joestump.net"/>
+      <tag name="copyright" line="0" description="2007-2008 Digg.com, Inc."/>
+      <tag name="license" line="0" description="New BSD License" link="http://www.opensource.org/licenses/bsd-license.php"/>
+      <tag name="version" line="0" description="CVS: $Id$"/>
+      <tag name="link" line="0" description="http://pear.php.net/package/Net_Gearman" link="http://pear.php.net/package/Net_Gearman"/>
+      <tag name="link" line="0" description="http://www.danga.com/gearman/" link="http://www.danga.com/gearman/"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="ShSo\Net\Gearman" line="36" package="ShSo\Net\Gearman">
+      <extends/>
+      <name>Connection</name>
+      <full_name>\ShSo\Net\Gearman\Connection</full_name>
+      <docblock line="36">
+        <description>The base connection class</description>
+        <long-description></long-description>
+        <tag name="category" line="36" description="Net"/>
+        <tag name="package" line="36" description="ShSo\Net\Gearman"/>
+        <tag name="author" line="36" description="Joe Stump" link="mailto:joe@joestump.net"/>
+        <tag name="copyright" line="36" description="2007-2008 Digg.com, Inc."/>
+        <tag name="license" line="36" description="New BSD License" link="http://www.opensource.org/licenses/bsd-license.php"/>
+        <tag name="version" line="36" description="Release: @package_version@"/>
+        <tag name="link" line="36" description="http://www.danga.com/gearman/" link="http://www.danga.com/gearman/"/>
+      </docblock>
+      <property static="true" visibility="protected" namespace="ShSo\Net\Gearman" line="49" package="ShSo\Net\Gearman">
+        <name>$commands</name>
+        <full_name>\ShSo\Net\Gearman\Connection::commands</full_name>
+        <default>array('can_do' =&gt; array(1, array('func')), 'can_do_timeout' =&gt; array(23, array('func', 'timeout')), 'cant_do' =&gt; array(2, array('func')), 'reset_abilities' =&gt; array(3, array()), 'set_client_id' =&gt; array(22, array('client_id')), 'pre_sleep' =&gt; array(4, array()), 'noop' =&gt; array(6, array()), 'submit_job' =&gt; array(7, array('func', 'uniq', 'arg')), 'submit_job_high' =&gt; array(21, array('func', 'uniq', 'arg')), 'submit_job_bg' =&gt; array(18, array('func', 'uniq', 'arg')), 'submit_job_high_bg' =&gt; array(32, array('func', 'uniq', 'arg')), 'submit_job_low' =&gt; array(33, array('func', 'uniq', 'arg')), 'submit_job_low_bg' =&gt; array(34, array('func', 'uniq', 'arg')), 'job_created' =&gt; array(8, array('handle')), 'grab_job' =&gt; array(9, array()), 'no_job' =&gt; array(10, array()), 'job_assign' =&gt; array(11, array('handle', 'func', 'arg')), 'work_status' =&gt; array(12, array('handle', 'numerator', 'denominator')), 'work_complete' =&gt; array(13, array('handle', 'result')), 'work_fail' =&gt; array(14, array('handle')), 'get_status' =&gt; array(15, array('handle')), 'status_res' =&gt; array(20, array('handle', 'known', 'running', 'numerator', 'denominator')), 'echo_req' =&gt; array(16, array('text')), 'echo_res' =&gt; array(17, array('text')), 'error' =&gt; array(19, array('err_code', 'err_text')), 'all_yours' =&gt; array(24, array()))</default>
+        <docblock line="49">
+          <description>A list of valid Gearman commands</description>
+          <long-description>This is a list of valid Gearman commands (the key of the array), their
+integery type (first key in second array) used in the binary header, and
+the arguments / order of arguments to send/receive.</long-description>
+          <tag name="var" line="49" description="" type="array" variable="$commands">
+            <type>array</type>
+          </tag>
+          <tag name="see" line="49" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Connection::$magic"/>
+          <tag name="see" line="49" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Connection::connect()"/>
+        </docblock>
+      </property>
+      <property static="true" visibility="protected" namespace="ShSo\Net\Gearman" line="88" package="ShSo\Net\Gearman">
+        <name>$magic</name>
+        <full_name>\ShSo\Net\Gearman\Connection::magic</full_name>
+        <default>array()</default>
+        <docblock line="88">
+          <description>The reverse of ShSo\Net\Gearman\Connection::$commands</description>
+          <long-description>This is the same as the ShSo\Net\Gearman\Connection::$commands array only
+it's keyed by the magic (integer value) value of the command.</long-description>
+          <tag name="var" line="88" description="" type="array" variable="$magic">
+            <type>array</type>
+          </tag>
+          <tag name="see" line="88" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Connection::$commands"/>
+          <tag name="see" line="88" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Connection::connect()"/>
+        </docblock>
+      </property>
+      <property static="true" visibility="public" namespace="ShSo\Net\Gearman" line="101" package="ShSo\Net\Gearman">
+        <name>$waiting</name>
+        <full_name>\ShSo\Net\Gearman\Connection::waiting</full_name>
+        <default>array()</default>
+        <docblock line="101">
+          <description>Tasks waiting for a handle</description>
+          <long-description>Tasks are popped onto this queue as they're submitted so that they can
+later be popped off of the queue once a handle has been assigned via
+the job_created command.</long-description>
+          <tag name="access" line="101" description="public"/>
+          <tag name="var" line="101" description="" type="array" variable="$waiting">
+            <type>array</type>
+          </tag>
+          <tag name="static" line="101" description=""/>
+        </docblock>
+      </property>
+      <property static="true" visibility="protected" namespace="ShSo\Net\Gearman" line="108" package="ShSo\Net\Gearman">
+        <name>$multiByteSupport</name>
+        <full_name>\ShSo\Net\Gearman\Connection::multiByteSupport</full_name>
+        <default>null</default>
+        <docblock line="108">
+          <description>Is PHP's multibyte overload turned on?</description>
+          <long-description></long-description>
+          <tag name="var" line="108" description="" type="integer" variable="$multiByteSupport">
+            <type>integer</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="true" abstract="false" static="false" visibility="private" namespace="ShSo\Net\Gearman" line="115" package="ShSo\Net\Gearman">
+        <name>__construct</name>
+        <full_name>\ShSo\Net\Gearman\Connection::__construct()</full_name>
+        <docblock line="115">
+          <description>Constructor</description>
+          <long-description></long-description>
+          <tag name="return" line="115" description="" type="void">
+            <type>void</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="ShSo\Net\Gearman" line="135" package="ShSo\Net\Gearman">
+        <name>connect</name>
+        <full_name>\ShSo\Net\Gearman\Connection::connect()</full_name>
+        <docblock line="135">
+          <description>Connect to Gearman</description>
+          <long-description>Opens the socket to the Gearman Job server. It throws an exception if
+a socket error occurs. Also populates ShSo\Net\Gearman\Connection::$magic.</long-description>
+          <tag name="param" line="135" description="&lt;p&gt;e.g. 127.0.0.1 or 127.0.0.1:7003&lt;/p&gt;" type="string" variable="$host">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="135" description="&lt;p&gt;Timeout in milliseconds&lt;/p&gt;" type="integer" variable="$timeout">
+            <type>integer</type>
+          </tag>
+          <tag name="return" line="135" description="A connection to a Gearman server" type="resource">
+            <type>resource</type>
+          </tag>
+          <tag name="throws" line="135" description="when it can't connect to server" type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+          <tag name="see" line="135" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Connection::$waiting"/>
+          <tag name="see" line="135" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Connection::$magic"/>
+          <tag name="see" line="135" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Connection::$commands"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$host</name>
+          <default>'localhost'</default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$timeout</name>
+          <default>2000</default>
+          <type>integer</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="ShSo\Net\Gearman" line="190" package="ShSo\Net\Gearman">
+        <name>send</name>
+        <full_name>\ShSo\Net\Gearman\Connection::send()</full_name>
+        <docblock line="190">
+          <description>Send a command to Gearman</description>
+          <long-description>This is the command that takes the string version of the command you
+wish to run (e.g. 'can_do', 'grab_job', etc.) along with an array of
+parameters (in key value pairings) and packs it all up to send across
+the socket.</long-description>
+          <tag name="param" line="190" description="&lt;p&gt;The socket to send the command to&lt;/p&gt;" type="resource" variable="$socket">
+            <type>resource</type>
+          </tag>
+          <tag name="param" line="190" description="&lt;p&gt;Command to send (e.g. 'can_do')&lt;/p&gt;" type="string" variable="$command">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="190" description="&lt;p&gt;Params to send&lt;/p&gt;" type="array" variable="$params">
+            <type>array</type>
+          </tag>
+          <tag name="see" line="190" description="ShSo\Net\Gearman\Connection::$socket" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Connection::$commands,"/>
+          <tag name="return" line="190" description="" type="boolean">
+            <type>boolean</type>
+          </tag>
+          <tag name="throws" line="190" description="on invalid command or unable to write" type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$socket</name>
+          <default></default>
+          <type>resource</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$command</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$params</name>
+          <default>array()</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="ShSo\Net\Gearman" line="252" package="ShSo\Net\Gearman">
+        <name>read</name>
+        <full_name>\ShSo\Net\Gearman\Connection::read()</full_name>
+        <docblock line="252">
+          <description>Read command from Gearman</description>
+          <long-description></long-description>
+          <tag name="param" line="252" description="&lt;p&gt;The socket to read from&lt;/p&gt;" type="resource" variable="$socket">
+            <type>resource</type>
+          </tag>
+          <tag name="see" line="252" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Connection::$magic"/>
+          <tag name="return" line="252" description="Result read back from Gearman" type="array">
+            <type>array</type>
+          </tag>
+          <tag name="throws" line="252" description="connection issues or invalid responses" type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$socket</name>
+          <default></default>
+          <type>resource</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="ShSo\Net\Gearman" line="318" package="ShSo\Net\Gearman">
+        <name>blockingRead</name>
+        <full_name>\ShSo\Net\Gearman\Connection::blockingRead()</full_name>
+        <docblock line="318">
+          <description>Blocking socket read</description>
+          <long-description></long-description>
+          <tag name="param" line="318" description="&lt;p&gt;The socket to read from&lt;/p&gt;" type="resource" variable="$socket">
+            <type>resource</type>
+          </tag>
+          <tag name="param" line="318" description="&lt;p&gt;The timeout for the read&lt;/p&gt;" type="float" variable="$timeout">
+            <type>float</type>
+          </tag>
+          <tag name="throws" line="318" description="on timeouts" type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+          <tag name="return" line="318" description="" type="array">
+            <type>array</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$socket</name>
+          <default></default>
+          <type>resource</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$timeout</name>
+          <default>500</default>
+          <type>float</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="ShSo\Net\Gearman" line="351" package="ShSo\Net\Gearman">
+        <name>close</name>
+        <full_name>\ShSo\Net\Gearman\Connection::close()</full_name>
+        <docblock line="351">
+          <description>Close the connection</description>
+          <long-description></long-description>
+          <tag name="param" line="351" description="&lt;p&gt;The connection/socket to close&lt;/p&gt;" type="resource" variable="$socket">
+            <type>resource</type>
+          </tag>
+          <tag name="return" line="351" description="" type="void">
+            <type>void</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$socket</name>
+          <default></default>
+          <type>resource</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="ShSo\Net\Gearman" line="365" package="ShSo\Net\Gearman">
+        <name>isConnected</name>
+        <full_name>\ShSo\Net\Gearman\Connection::isConnected()</full_name>
+        <docblock line="365">
+          <description>Are we connected?</description>
+          <long-description></long-description>
+          <tag name="param" line="365" description="&lt;p&gt;The connection/socket to check&lt;/p&gt;" type="resource" variable="$conn">
+            <type>resource</type>
+          </tag>
+          <tag name="return" line="365" description="False if we aren't connected" type="boolean">
+            <type>boolean</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$conn</name>
+          <default></default>
+          <type>resource</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="ShSo\Net\Gearman" line="380" package="ShSo\Net\Gearman">
+        <name>stringLength</name>
+        <full_name>\ShSo\Net\Gearman\Connection::stringLength()</full_name>
+        <docblock line="380">
+          <description>Determine if we should use mb_strlen or stock strlen</description>
+          <long-description></long-description>
+          <tag name="param" line="380" description="&lt;p&gt;The string value to check&lt;/p&gt;" type="string" variable="$value">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="380" description="Size of string" type="integer">
+            <type>integer</type>
+          </tag>
+          <tag name="see" line="380" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Connection::$multiByteSupport"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$value</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="ShSo\Net\Gearman" line="405" package="ShSo\Net\Gearman">
+        <name>subString</name>
+        <full_name>\ShSo\Net\Gearman\Connection::subString()</full_name>
+        <docblock line="405">
+          <description>Multibyte substr() implementation</description>
+          <long-description></long-description>
+          <tag name="param" line="405" description="&lt;p&gt;The string to substr()&lt;/p&gt;" type="string" variable="$str">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="405" description="&lt;p&gt;The first position used&lt;/p&gt;" type="integer" variable="$start">
+            <type>integer</type>
+          </tag>
+          <tag name="param" line="405" description="&lt;p&gt;The maximum length of the returned string&lt;/p&gt;" type="integer" variable="$length">
+            <type>integer</type>
+          </tag>
+          <tag name="return" line="405" description="Portion of $str specified by $start and $length" type="string">
+            <type>string</type>
+          </tag>
+          <tag name="see" line="405" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Connection::$multiByteSupport"/>
+          <tag name="link" line="405" description="http://us3.php.net/mb_substr" link="http://us3.php.net/mb_substr"/>
+          <tag name="link" line="405" description="http://us3.php.net/substr" link="http://us3.php.net/substr"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$str</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$start</name>
+          <default></default>
+          <type>integer</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$length</name>
+          <default></default>
+          <type>integer</type>
+        </argument>
+      </method>
+    </class>
+    <source>eJzlG11z28bxufoVZw0bkg5NUpJTp7IZW5aVRKkiu5LSPsgazhE8kheBOAQHiFYz/u/dvQ/gcAAoyOlDp6WdkAB293b39vvgV6/jVbyzM3r6dIc8JadRypIFDRhZiIS8o9GSdiX5gdFkTSPyq5gRGazYPAt5tCTyXqZsDWiI+eHHD+SOJZKLiHwz3BuOvzYPzk6PT84vTw7J1YpLIkWWIHUeMoKX2exXFqQkFSRdMXLONuTt5TsS8oBFksE9mgIYkqF3lId0FuLNRGTLlULYiCScP9vwOXu2YTMC0Hh3IcJQbJDFXy5ODxF7labx4Wi02WyGIgbSiouhSJYjs5QczeT8mbkYgkqG5HRB7kVG5nxOIpGShAWM3zHFCwlEfE/EosT0mWGaRnNCE0aySLMriJillEeEp2Xe2WyA1OKQUUCTDPFwKYVjWHmDrEQsBcUBAglgF9agCMWZYYOv12zOacrC+6HR+ZsALpciuSfAXaruxDS4pUtGCLlcXYqPcPuj2Vb1mGbpCnYcPj8JRi7TbB2TV78K9gb+k3iFTHynacOiCV+uUrI/Hr94Bv/7lrzjy+UwEOsBWFAwVGB2D8kXKN/XqSJorYuQ439cHpLO6bxjFopuifqYhWKQa2j0NjJyj0DgqStwBQvZm6PBoxyjpQYdAexoZyeiayZjdAtfeS+t51zBjs5wHwMRRWDSyGkQUin/P7bkgikrPsylmppnbx6tbaU1cpyrcef3HURUesbPU3IE3iFT9L87GoJ72vgEpOBrLg2cBVeBB/7SB9BID93yluWeTZOE3vcH+JsnlhqHELlksI/pfcxIb8EToIlI4OGSwe7PDR7JJJvjXSQ14xEFnBWjc5YMMEZYenqhZbZmUSrJiIgEIJCD4iaEA4wOIxOChp58b+5ootckHU8F5I1kVaP9WCj38LCzpksetIc39t3rG5SR+pYpTXlA4gTCV5CC3DknZKJ562l4+HQhik3noksm35lHewPzo7vIoqDb7w984GnK10xkqYO0f1DGGpCuBfIJpOXl9rcslzAJkYLOeMhTzqSDlS9XgkfoIOSwT1M+d9coFikelzDjhE1lyFjsYD2vXSMSwgX6Sz0j2WzN0ynkaAf0RUVFWcR/w2+wrm4D/nQFocQVZe+LqMyW7g5/+8WclAkd7H8RIagHXCJV02lJxGPmeXs6SCBIGGQB10wKtazAWUJWxlkmdObt6F8bLMQD2xvXwiETEF35MnJh93wmgH8rT0UOKLlup+jumesce/s1NCKIXwlNRYIXcxaJNURBvKwShGgBdVDKXJIHNSTBPbMwrSGwgKrIRX6+XbHgtVUZvtmKo+GnSSko7I9rmLyNxCZS3GZRBGVoe12wYCVghd9crnJ376bsU1oLX5LixTb4JIElHeDcnPAR7MJcCYC/q8g0DKdQdyYl+Z2IpSD7L3f8dI2lUcKwHmCY17ZnowdyOGZLCdUYofp3O2ImO4oovM/TeAqNDaRtSFWze0VK5UHSM/kda4SM9fWXLQgMvW0J+JHZ9AsSdtsErOWx2bduX6i8lWRDIdFBq4QNHyXaiH3lK0DsaWIRx0BbRKphg/34LWOZ3Yx78E6iwyUyIIXu3/AJNi6WWgghMCGzgthiYfWrqYkICm3LCnxJAGYR0XELEO44dYsnJ7A2bhANAgZFpfrE2Sx0tgj3zn70HhafjlFOsTlKy7WKV1RzjG16P5XYLYP5rSGU8dk9NHwCvCMUdE7SLImUgl/X2Zi1zY7CfAuYl1kciyR9yBQ8cOAuysKwyhrYmUyTLIDA5K+fMOSN3Ak+L622gDgWwmL8DnaAYNpQvc8UgomhZSz19zySjEbknYi6KaHYp2tD0lU/mBUYBgdEKNqwp9Vrfa5jNDKDg7xnKvH7HtsaHS5EcMvyEYMt+n/CWQZLQO/Q6evGfAM2HhH2KWCxEoEvLDFqiaj4SUQQQBQckqMQbBysOEOTlm3K7IphxjSha9ixBG2msxLQS8CHDZdDsrf/YjiGP3vQEhQXhy/G4wMPHcxCWaspf8mV+YbeY81DaHpUW+KHVLujkD70UObI7V1BXTRXllZUjmiUVZH3JFfdZsXUvAPcHrY5KDbLo/RwfKx44H+6n/EjcJ1X51ZtY6/eqQnphiKgIV5A2sz1P8E2fOxbPV+Q3pNAZFHakyxcWE77fQdGOZSAYBasiIUqkpiErmo9x+Tb4T6WYtohe93h1+ObmzwOISawyK/3biAkuVifd4pf+c8OWDp8gYTdl6WbkYCbY+eeiidw7/mLg/HLnZK0YNaxkFpZUFUcdiuyYkNunytKfaDEPsUhFCI9QBhon3A4dnmETVKxbM0DiHWg/B7EG+YAz4W3Xsf48YR81L9M5ugdfT89PT+5GpDL98d/m15eXZwc/YwXZ9Or4w+ewjoWVRsDBNgJ2FnpXs/AGP6tcGU6qKIKrdp91TDYakYimoHN3VpEj6QHLZQ3FswYeQYEKv69GlRlwWdsgQrq9Ty1kmdG433wqz008EY7Av/HAW/vSVVVX30FQufLvH5Nxv1Xuef0PQOq4vvqyU3SAEIWSacqSjdoCBHALv+UY8CFgVekPHAV6kjENiQPbr2K2naP68McMTQP7ar93RJuvVkbLzaB7xoL0r6R5cYtKyy8CeMG5GVDwrzU42UTTJrzplto58CqjKO3zCRUna3s8K9cG+Nk2tLacLnClaANIj2V0+zoZ+D0tgPC0mDYh2JAANUNT1eYhk3FnqdglemgQUwkluhq4KZL85hyZEf21eAdp48SMw+UFiSL7eiMUDBlmRfZRVnQkJDznGgDhmpiikpC0SypSNSndJIPwqBkyVWv0Msa6Xv4eSnaUddQu37Q3wbd57t9nhs8AKel9KuEmRAhK4r4FjUAVlCRnrRaFUAhU5yKbBKe2k5ja9JFcZ2AaogNbMdl9DMp96Fe3uUS4qGfUa/tr5tKYqrz++5pWZxD0iXDnJ+GHDWnKa3z2qYsX/AEmVql/AVnYSXuoVBaJiP/tYarSpJzcY3Rw4NuUwlgeuNrnZJ3P34aj3cHmqAbrXVhQnY/ji9O/r4LakFH7O2en+8OKtyUP83yj2/a4WpXO2PRMl31OnPQAOzK3GNOP8ZEUYMDz52t6aBlplDAlgsdXftPyIKGkm2rMYIVC26dmkAZem7AD4jkypXNLhWbtngzfA0cgfqt6Dnwjlrwo2oQw/DEyFZnQaqca0yxgKsKp5Or6cnRD0en58T2j75grUj88/0vZ+/ensHVH6Nzev7h4v0PFyeXl/0KlaqI+IHOVN7yWLek8Ffc0vsK4OfKHRZK1nKF3IywpqpWYPiZQWS4rT767Plq2eiszX49IbpiUJvqxCRbk+WQrxrMQpmE4XKi+fwvrbpEFuqzeeVhbm1jMvVj6i9HqU7ZdMFokb4WiVg3lE1NdUO5bEiQGlJ5fPYud7UmKesMeKFm4pr4DMJuHZ9tErbT/UNqyaDaE0mewkGyWODBcJuMjazkluCl444+A/Vay2oUnWWLwsBcgtC67EMvUhfHNem+b3xmxeFEUa3zCVzsiY1/0KNU/TIH6Xaxh9myOjjW3n7FoZQ4Cr1NqbFb7D3ZQBGgTiV360sMFZq3sAOLjv01XfvpVdxAyYsbjkksi1Qq79LnygRH53juPToPWaS6c72I37fpMYeioRg4aFVfXejz7TnW/77ddZuFLxd3ZvqBeNdd5LV70668q+x5Xu9ZHswRgVYes/Wfu1KL9q5jdF9TEypD0eRQvTfku+rO2YLSdR78GEuurYiwVsNw75BurBLRS2qdrsRYvfuphSpTAY99Z8DjV5MuoF8f122rrZC5GonRWpm0tq87VFW/8+sOb1X05qFsQrYxML7xdq/Am9jTtrrS/Umd+gyrxelbQzFfhUN7+CVSx456RP2SYEbRSRwP9YbdrbvSyh1q1h2Ub6rjwzY+UAo/Xaszday4XdsN1a6GUFbgYjRBo7lZaGSk3zQ0eYujNvWqo07h6BFfNjDwM7/FW4SCesN7wLO/8UwuVaen1XVbNeCGUHG66Gq+TSafGQ1clGNBMen+pjroNqSwupTEPwfTst5NJQtwagzyQxHYywn+WU8W3W4MgDOEnpACLB9AFmAPDoNNhDSpCZmrz43ony2GnxCc87FljZfWJrjcnpQ5IPacqPeVtsdMXd7mh3alZ/q4qv6ZWoUURwB5aV4Cy+fFoRpcI5LpNdnA0h/YPRvk+9EUr/WqGJZlbfRCxatRhFvemlTT5mTCteCpXPGF3cwmJz4OhXqV2H018xHVe4E0Ktw5QJo+kaYT0qazJKTRVCXr+c7UcpSD+Sq18/ESrYfbmqOEqdeJ7Vi9ctrsKwQht6gDe80GdZjBIfleldYg1wbfd2TOwJy1UheXxxa8p9jxVWbWQ7WhLxggVbOjC9dV9SUNa/DJFnBI16kIxYYlvaWqjzTqFLONwVchpas10200yXc4yF7zyOpDrlQrm2GJOcPeGKosbL5kCoSIvq7fIXtyrGfhV850Xt14YG/s+wSX/F/qHReN+5iutM17CP44t1T06Nds6q1fbaMtCLyVqp5QD4fDyyiFVXo84lPYtl53PdMsDJGlqX31ott/qL2q0v6K7Dd0Vvk2GgkHpPvtjJci/Wc1NqpHL+G28Oef8zdJZIbS9fpqZMvw/WHaHPDsIQWkNvUSjGM/OEQxpDyk/CUUnXEVkn4LOhaSqy3GN5+bsEI9iL1Sb1x94utsTcwtc5Bk26uyNfqma9j8ANtgDqGUEDJmAV9w/VaX4RBHN2bZP27a5l128xp7Jg/yf2mAW6409iBkCWy7rxQjYMAYGIkGVpz/Tb/RZlcr8GPdaAupGq/6vPNvuHkzVA==</source>
+  </file>
+  <file path="Set.php" generated-path="Set.html" hash="4746e1b02bf4e78751916a21a8c2267a" package="ShSo\Net\Gearman">
+    <docblock line="0">
+      <description>Interface for Danga's Gearman job scheduling system</description>
+      <long-description>PHP version 5.1.0+
+
+LICENSE: This source file is subject to the New BSD license that is
+available through the world-wide-web at the following URI:
+http://www.opensource.org/licenses/bsd-license.php. If you did not receive
+a copy of the New BSD License and are unable to obtain it through the web,
+please send a note to license@php.net so we can mail you a copy immediately.</long-description>
+      <tag name="category" line="0" description="Net"/>
+      <tag name="package" line="0" description="ShSo\Net\Gearman"/>
+      <tag name="author" line="0" description="Joe Stump" link="mailto:joe@joestump.net"/>
+      <tag name="copyright" line="0" description="2007-2008 Digg.com, Inc."/>
+      <tag name="license" line="0" description="New BSD License" link="http://www.opensource.org/licenses/bsd-license.php"/>
+      <tag name="version" line="0" description="CVS: $Id$"/>
+      <tag name="link" line="0" description="http://pear.php.net/package/Net_Gearman" link="http://pear.php.net/package/Net_Gearman"/>
+      <tag name="link" line="0" description="http://www.danga.com/gearman/" link="http://www.danga.com/gearman/"/>
+    </docblock>
+    <namespace-alias name="Countable">\Countable</namespace-alias>
+    <namespace-alias name="IteratorAggregate">\IteratorAggregate</namespace-alias>
+    <class final="false" abstract="false" namespace="ShSo\Net\Gearman" line="72" package="ShSo\Net\Gearman">
+      <extends/>
+      <implements>\IteratorAggregate</implements>
+      <implements>\Countable</implements>
+      <name>Set</name>
+      <full_name>\ShSo\Net\Gearman\Set</full_name>
+      <docblock line="72">
+        <description>A class for creating sets of tasks</description>
+        <long-description>&lt;code&gt;
+&lt;?php
+require_once 'Net/Gearman/Client.php';
+
+// This is the callback function for our tasks
+function echoResult($result) {
+    echo 'The result was: ' . $result . "\n";
+}
+
+// Job name is the key, arguments to job are in the value array
+$jobs = array(
+    'AddTwoNumbers' =&gt; array('1', '2'),
+    'Multiply' =&gt; array('3', '4')
+);
+
+$set = new ShSo\Net\Gearman\Set();
+foreach ($jobs as $job =&gt; $args) {
+    $task = new ShSo\Net\Gearman\Task($job, $args);
+    $task-&gt;attachCallback('echoResult');
+    $set-&gt;addTask($task);
+}
+
+$client = new ShSo\Net\Gearman\Client(array(
+    '127.0.0.1:7003', '127.0.0.1:7004'
+));
+
+$client-&gt;runSet($set);
+
+?&gt;
+&lt;/code&gt;</long-description>
+        <tag name="category" line="72" description="Net"/>
+        <tag name="package" line="72" description="ShSo\Net\Gearman"/>
+        <tag name="author" line="72" description="Joe Stump" link="mailto:joe@joestump.net"/>
+        <tag name="copyright" line="72" description="2007-2008 Digg.com, Inc."/>
+        <tag name="license" line="72" description="New BSD License" link="http://www.opensource.org/licenses/bsd-license.php"/>
+        <tag name="version" line="72" description="Release: @package_version@"/>
+        <tag name="link" line="72" description="http://www.danga.com/gearman/" link="http://www.danga.com/gearman/"/>
+        <tag name="see" line="72" description="ShSo\Net\Gearman\Worker" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Job\Common,"/>
+      </docblock>
+      <property static="false" visibility="public" namespace="ShSo\Net\Gearman" line="79" package="ShSo\Net\Gearman">
+        <name>$tasksCount</name>
+        <full_name>\ShSo\Net\Gearman\Set::tasksCount</full_name>
+        <default>0</default>
+        <docblock line="79">
+          <description>Tasks count</description>
+          <long-description></long-description>
+          <tag name="var" line="79" description="" type="integer" variable="$tasksCount">
+            <type>integer</type>
+          </tag>
+        </docblock>
+      </property>
+      <property static="false" visibility="public" namespace="ShSo\Net\Gearman" line="86" package="ShSo\Net\Gearman">
+        <name>$tasks</name>
+        <full_name>\ShSo\Net\Gearman\Set::tasks</full_name>
+        <default>array()</default>
+        <docblock line="86">
+          <description>Tasks to run</description>
+          <long-description></long-description>
+          <tag name="var" line="86" description="" type="array" variable="$tasks">
+            <type>array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property static="false" visibility="public" namespace="ShSo\Net\Gearman" line="93" package="ShSo\Net\Gearman">
+        <name>$handles</name>
+        <full_name>\ShSo\Net\Gearman\Set::handles</full_name>
+        <default>array()</default>
+        <docblock line="93">
+          <description>Handle to task mapping</description>
+          <long-description></long-description>
+          <tag name="var" line="93" description="" type="array" variable="$handles">
+            <type>array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="100" package="ShSo\Net\Gearman">
+        <name>$callback</name>
+        <full_name>\ShSo\Net\Gearman\Set::callback</full_name>
+        <default>null</default>
+        <docblock line="100">
+          <description>Callback registered for set</description>
+          <long-description></long-description>
+          <tag name="var" line="100" description="" type="mixed" variable="$callback">
+            <type>mixed</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="110" package="ShSo\Net\Gearman">
+        <name>__construct</name>
+        <full_name>\ShSo\Net\Gearman\Set::__construct()</full_name>
+        <docblock line="110">
+          <description>Constructor</description>
+          <long-description></long-description>
+          <tag name="param" line="110" description="&lt;p&gt;Array of tasks to run&lt;/p&gt;" type="array" variable="$tasks">
+            <type>array</type>
+          </tag>
+          <tag name="return" line="110" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="see" line="110" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$tasks</name>
+          <default>array()</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="125" package="ShSo\Net\Gearman">
+        <name>addTask</name>
+        <full_name>\ShSo\Net\Gearman\Set::addTask()</full_name>
+        <docblock line="125">
+          <description>Add a task to the set</description>
+          <long-description></long-description>
+          <tag name="param" line="125" description="&lt;p&gt;Task to add to the set&lt;/p&gt;" type="object" variable="$task">
+            <type>object</type>
+          </tag>
+          <tag name="return" line="125" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="see" line="125" description="ShSo\Net\Gearman\Set::$tasks" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task,"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$task</name>
+          <default></default>
+          <type>object</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="141" package="ShSo\Net\Gearman">
+        <name>getTask</name>
+        <full_name>\ShSo\Net\Gearman\Set::getTask()</full_name>
+        <docblock line="141">
+          <description>Get a task</description>
+          <long-description></long-description>
+          <tag name="param" line="141" description="&lt;p&gt;Handle of task to get&lt;/p&gt;" type="string" variable="$handle">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="141" description="Instance of task" type="object">
+            <type>object</type>
+          </tag>
+          <tag name="throws" line="141" description="" type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$handle</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="163" package="ShSo\Net\Gearman">
+        <name>finished</name>
+        <full_name>\ShSo\Net\Gearman\Set::finished()</full_name>
+        <docblock line="163">
+          <description>Is this set finished running?</description>
+          <long-description>This function will return true if all of the tasks in the set have
+finished running. If they have we also run the set callbacks if there
+is one.</long-description>
+          <tag name="return" line="163" description="" type="boolean">
+            <type>boolean</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="188" package="ShSo\Net\Gearman">
+        <name>attachCallback</name>
+        <full_name>\ShSo\Net\Gearman\Set::attachCallback()</full_name>
+        <docblock line="188">
+          <description>Attach a callback to this set</description>
+          <long-description></long-description>
+          <tag name="param" line="188" description="&lt;p&gt;A valid PHP callback&lt;/p&gt;" type="callback" variable="$callback">
+            <type>callback</type>
+          </tag>
+          <tag name="return" line="188" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="throws" line="188" description="" type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$callback</name>
+          <default></default>
+          <type>callback</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="202" package="ShSo\Net\Gearman">
+        <name>getIterator</name>
+        <full_name>\ShSo\Net\Gearman\Set::getIterator()</full_name>
+        <docblock line="202">
+          <description>Get the iterator</description>
+          <long-description></long-description>
+          <tag name="return" line="202" description="Tasks" type="\ShSo\Net\Gearman\ArrayIterator">
+            <type>\ShSo\Net\Gearman\ArrayIterator</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="213" package="ShSo\Net\Gearman">
+        <name>count</name>
+        <full_name>\ShSo\Net\Gearman\Set::count()</full_name>
+        <docblock line="213">
+          <description>Get the task count</description>
+          <long-description></long-description>
+          <tag name="return" line="213" description="Number of tasks in the set" type="integer">
+            <type>integer</type>
+          </tag>
+          <tag name="see" line="213" description="Countable::count()}" link="\ShSo\Net\Gearman\{@link"/>
+        </docblock>
+      </method>
+    </class>
+    <source>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</source>
+  </file>
+  <file path="Exception.php" generated-path="Exception.html" hash="d94aa919b5a541a6a92c2ee3b5cb0af0" package="ShSo\Net\Gearman">
+    <docblock line="0">
+      <description>Interface for Danga's Gearman job scheduling system</description>
+      <long-description>PHP version 5.1.0+
+
+LICENSE: This source file is subject to the New BSD license that is
+available through the world-wide-web at the following URI:
+http://www.opensource.org/licenses/bsd-license.php. If you did not receive
+a copy of the New BSD License and are unable to obtain it through the web,
+please send a note to license@php.net so we can mail you a copy immediately.</long-description>
+      <tag name="category" line="0" description="Net"/>
+      <tag name="package" line="0" description="ShSo\Net\Gearman"/>
+      <tag name="author" line="0" description="Joe Stump" link="mailto:joe@joestump.net"/>
+      <tag name="copyright" line="0" description="2007-2008 Digg.com, Inc."/>
+      <tag name="license" line="0" description="New BSD License" link="http://www.opensource.org/licenses/bsd-license.php"/>
+      <tag name="version" line="0" description="CVS: $Id$"/>
+      <tag name="link" line="0" description="http://pear.php.net/package/Net_Gearman" link="http://pear.php.net/package/Net_Gearman"/>
+      <tag name="link" line="0" description="http://www.danga.com/gearman/" link="http://www.danga.com/gearman/"/>
+    </docblock>
+    <namespace-alias name="BaseException">\Exception</namespace-alias>
+    <class final="false" abstract="false" namespace="ShSo\Net\Gearman" line="40" package="ShSo\Net\Gearman">
+      <extends>\Exception</extends>
+      <name>Exception</name>
+      <full_name>\ShSo\Net\Gearman\Exception</full_name>
+      <docblock line="40">
+        <description>Exception class for ShSo\Net\Gearman</description>
+        <long-description></long-description>
+        <tag name="category" line="40" description="Net"/>
+        <tag name="package" line="40" description="ShSo\Net\Gearman"/>
+        <tag name="author" line="40" description="Joe Stump" link="mailto:joe@joestump.net"/>
+        <tag name="copyright" line="40" description="2007-2008 Digg.com, Inc."/>
+        <tag name="license" line="40" description="New BSD License" link="http://www.opensource.org/licenses/bsd-license.php"/>
+        <tag name="link" line="40" description="http://www.danga.com/gearman/" link="http://www.danga.com/gearman/"/>
+        <tag name="version" line="40" description="Release: @package_version@"/>
+        <tag name="see" line="40" description="" link="\ShSo\Net\Gearman\Exception"/>
+      </docblock>
+    </class>
+    <source>eJzdU11r20AQfNevmIdAwY0lt1BanNCafNC6hBDitk+BcDqtpXOkO6E7RTGh/71754uduH0ofazAhtvb2Z2duT3+1FZtkmSjUYIR5tpRtxSSsDQdzoQuxSuLzyS6RmisTA4rKyr6WukSdm0dNQzzyKsvV7inziqj8S59k05ex4uL+en55eJ8im+VsrCm73x1VRP8sc9XJB2cgasIlzTgZHGGWknSljgmHKf5MuJeqFrktQ92pi+rABhMVxfjQRU0HigHZ/vo0tS1GTzF79fzqUdXzrXTLBuGITUtlw4sUtOVWWxls9wW43hIWZIU8yXWpkehCmjj0JEkdU+BC6Rp1zDLF6QvImmhC4iO0OsNXQOTO6E0lHvJnfJDX62tSTDMksf5VgETqcw8FU2OhWMAJLvQsBCBWaShmoYKJRzV6zRqPpN8LE23BrNzIdIKeSdKArCoFuaGwzfR1nAtelex4/x9NYSF65sWxytDM/5Zf/IkPm5qc9NOlZXD28nk/Zj/PuBMlWUqTXPIL0imIe3JQ/yD+PuahoJPrws4/bGY4mBeHMRG+g7hi41aniuNumVx7owHvn0+8G8oT6/wD97PkZWb1IxzsyTRoiHb+rXYF+8oSXoe8vxBUus8O2FxwnZuA0fb3drlyFpYGzbsD178t/79veLPvb6msB7TrQK38W4WEi3RpuZO3mDZRuKd5PTgeL/2vMEjfia/AAwQob0=</source>
+  </file>
+  <file path="Client.php" generated-path="Client.html" hash="e9cba341d9f2024fc600b253ba02f767" package="ShSo\Net\Gearman">
+    <docblock line="0">
+      <description>Interface for Danga's Gearman job scheduling system</description>
+      <long-description>PHP version 5.1.0+ 7+
+
+LICENSE: This source file is subject to the New BSD license that is
+available through the world-wide-web at the following URI:
+http://www.opensource.org/licenses/bsd-license.php. If you did not receive
+a copy of the New BSD License and are unable to obtain it through the web,
+please send a note to license@php.net so we can mail you a copy immediately.</long-description>
+      <tag name="category" line="0" description="Net"/>
+      <tag name="package" line="0" description="ShSo\Net\Gearman"/>
+      <tag name="author" line="0" description="Joe Stump" link="mailto:joe@joestump.net"/>
+      <tag name="copyright" line="0" description="2007-2008 Digg.com, Inc."/>
+      <tag name="license" line="0" description="New BSD License" link="http://www.opensource.org/licenses/bsd-license.php"/>
+      <tag name="version" line="0" description="CVS: $Id$"/>
+      <tag name="link" line="0" description="http://pear.php.net/package/Net_Gearman" link="http://pear.php.net/package/Net_Gearman"/>
+      <tag name="link" line="0" description="http://www.danga.com/gearman/" link="http://www.danga.com/gearman/"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="ShSo\Net\Gearman" line="39" package="ShSo\Net\Gearman">
+      <extends/>
+      <name>Client</name>
+      <full_name>\ShSo\Net\Gearman\Client</full_name>
+      <docblock line="39">
+        <description>A client for submitting jobs to Gearman</description>
+        <long-description>This class is used by code submitting jobs to the Gearman server. It handles
+taking tasks and sets of tasks and submitting them to the Gearman server.</long-description>
+        <tag name="category" line="39" description="Net"/>
+        <tag name="package" line="39" description="ShSo\Net\Gearman"/>
+        <tag name="author" line="39" description="Joe Stump" link="mailto:joe@joestump.net"/>
+        <tag name="copyright" line="39" description="2007-2008 Digg.com, Inc."/>
+        <tag name="license" line="39" description="New BSD License" link="http://www.opensource.org/licenses/bsd-license.php"/>
+        <tag name="version" line="39" description="Release: @package_version@"/>
+        <tag name="link" line="39" description="http://www.danga.com/gearman/" link="http://www.danga.com/gearman/"/>
+      </docblock>
+      <property static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="46" package="ShSo\Net\Gearman">
+        <name>$conn</name>
+        <full_name>\ShSo\Net\Gearman\Client::conn</full_name>
+        <default>array()</default>
+        <docblock line="46">
+          <description>Our randomly selected connection</description>
+          <long-description></long-description>
+          <tag name="var" line="46" description="&lt;p&gt;An open socket to Gearman&lt;/p&gt;" type="resource" variable="$conn">
+            <type>resource</type>
+          </tag>
+        </docblock>
+      </property>
+      <property static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="53" package="ShSo\Net\Gearman">
+        <name>$servers</name>
+        <full_name>\ShSo\Net\Gearman\Client::servers</full_name>
+        <default>array()</default>
+        <docblock line="53">
+          <description>A list of Gearman servers</description>
+          <long-description></long-description>
+          <tag name="var" line="53" description="&lt;p&gt;A list of potential Gearman servers&lt;/p&gt;" type="array" variable="$servers">
+            <type>array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="60" package="ShSo\Net\Gearman">
+        <name>$timeout</name>
+        <full_name>\ShSo\Net\Gearman\Client::timeout</full_name>
+        <default>1000</default>
+        <docblock line="60">
+          <description>The timeout for Gearman connections</description>
+          <long-description></long-description>
+          <tag name="var" line="60" description="" type="integer" variable="$timeout">
+            <type>integer</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="72" package="ShSo\Net\Gearman">
+        <name>__construct</name>
+        <full_name>\ShSo\Net\Gearman\Client::__construct()</full_name>
+        <docblock line="72">
+          <description>Constructor</description>
+          <long-description></long-description>
+          <tag name="param" line="72" description="&lt;p&gt;An array of servers or a single server&lt;/p&gt;" type="array" variable="$servers">
+            <type>array</type>
+          </tag>
+          <tag name="param" line="72" description="&lt;p&gt;Timeout in microseconds&lt;/p&gt;" type="integer" variable="$timeout">
+            <type>integer</type>
+          </tag>
+          <tag name="return" line="72" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="throws" line="72" description="" type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+          <tag name="see" line="72" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Connection"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$servers</name>
+          <default>null</default>
+          <type>array</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$timeout</name>
+          <default>1000</default>
+          <type>integer</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="105" package="ShSo\Net\Gearman">
+        <name>getConnection</name>
+        <full_name>\ShSo\Net\Gearman\Client::getConnection()</full_name>
+        <docblock line="105">
+          <description>Get a connection to a Gearman server</description>
+          <long-description></long-description>
+          <tag name="return" line="105" description="A connection to a Gearman server" type="resource">
+            <type>resource</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="119" package="ShSo\Net\Gearman">
+        <name>__call</name>
+        <full_name>\ShSo\Net\Gearman\Client::__call()</full_name>
+        <docblock line="119">
+          <description>Fire off a background task with the given arguments</description>
+          <long-description></long-description>
+          <tag name="param" line="119" description="&lt;p&gt;Name of job to run&lt;/p&gt;" type="string" variable="$func">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="119" description="&lt;p&gt;First key should be args to send&lt;/p&gt;" type="array" variable="$args">
+            <type>array</type>
+          </tag>
+          <tag name="return" line="119" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="see" line="119" description="ShSo\Net\Gearman\Set" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task,"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$func</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$args</name>
+          <default>array()</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="143" package="ShSo\Net\Gearman">
+        <name>submitTask</name>
+        <full_name>\ShSo\Net\Gearman\Client::submitTask()</full_name>
+        <docblock line="143">
+          <description>Submit a task to Gearman</description>
+          <long-description></long-description>
+          <tag name="param" line="143" description="&lt;p&gt;Task to submit to Gearman&lt;/p&gt;" type="object" variable="$task">
+            <type>object</type>
+          </tag>
+          <tag name="return" line="143" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="see" line="143" description="ShSo\Net\Gearman\Client::runSet()" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Task,"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$task</name>
+          <default></default>
+          <type>object</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="199" package="ShSo\Net\Gearman">
+        <name>runSet</name>
+        <full_name>\ShSo\Net\Gearman\Client::runSet()</full_name>
+        <docblock line="199">
+          <description>Run a set of tasks</description>
+          <long-description></long-description>
+          <tag name="param" line="199" description="&lt;p&gt;A set of tasks to run&lt;/p&gt;" type="object" variable="$set">
+            <type>object</type>
+          </tag>
+          <tag name="param" line="199" description="&lt;p&gt;Time in seconds for the socket timeout. Max is 10 seconds&lt;/p&gt;" type="integer" variable="$timeout">
+            <type>integer</type>
+          </tag>
+          <tag name="return" line="199" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="see" line="199" description="ShSo\Net\Gearman\Task" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Set,"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$set</name>
+          <default></default>
+          <type>object</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$timeout</name>
+          <default>null</default>
+          <type>integer</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="268" package="ShSo\Net\Gearman">
+        <name>handleResponse</name>
+        <full_name>\ShSo\Net\Gearman\Client::handleResponse()</full_name>
+        <docblock line="268">
+          <description>Handle the response read in</description>
+          <long-description></long-description>
+          <tag name="param" line="268" description="&lt;p&gt;The raw array response&lt;/p&gt;" type="array" variable="$resp">
+            <type>array</type>
+          </tag>
+          <tag name="param" line="268" description="&lt;p&gt;The socket&lt;/p&gt;" type="resource" variable="$s">
+            <type>resource</type>
+          </tag>
+          <tag name="param" line="268" description="&lt;p&gt;The tasks being ran&lt;/p&gt;" type="object" variable="$tasks">
+            <type>object</type>
+          </tag>
+          <tag name="return" line="268" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="throws" line="268" description="" type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$resp</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$s</name>
+          <default></default>
+          <type>resource</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$tasks</name>
+          <default></default>
+          <type>object</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="311" package="ShSo\Net\Gearman">
+        <name>disconnect</name>
+        <full_name>\ShSo\Net\Gearman\Client::disconnect()</full_name>
+        <docblock line="311">
+          <description>Disconnect from Gearman</description>
+          <long-description></long-description>
+          <tag name="return" line="311" description="" type="void">
+            <type>void</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="327" package="ShSo\Net\Gearman">
+        <name>__destruct</name>
+        <full_name>\ShSo\Net\Gearman\Client::__destruct()</full_name>
+        <docblock line="327">
+          <description>Destructor</description>
+          <long-description></long-description>
+          <tag name="return" line="327" description="" type="void">
+            <type>void</type>
+          </tag>
+        </docblock>
+      </method>
+    </class>
+    <source>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</source>
+  </file>
+  <file path="Worker.php" generated-path="Worker.html" hash="b483af496fe764770d479ab693e4f753" package="ShSo\Net\Gearman">
+    <docblock line="0">
+      <description>Interface for Danga's Gearman job scheduling system</description>
+      <long-description>PHP version 5.1.0+
+
+LICENSE: This source file is subject to the New BSD license that is
+available through the world-wide-web at the following URI:
+http://www.opensource.org/licenses/bsd-license.php. If you did not receive
+a copy of the New BSD License and are unable to obtain it through the web,
+please send a note to license@php.net so we can mail you a copy immediately.</long-description>
+      <tag name="category" line="0" description="Net"/>
+      <tag name="package" line="0" description="ShSo\Net\Gearman"/>
+      <tag name="author" line="0" description="Joe Stump" link="mailto:joe@joestump.net"/>
+      <tag name="copyright" line="0" description="2007-2008 Digg.com, Inc."/>
+      <tag name="license" line="0" description="New BSD License" link="http://www.opensource.org/licenses/bsd-license.php"/>
+      <tag name="version" line="0" description="CVS: $Id$"/>
+      <tag name="link" line="0" description="http://pear.php.net/package/Net_Gearman" link="http://pear.php.net/package/Net_Gearman"/>
+      <tag name="link" line="0" description="http://www.danga.com/gearman/" link="http://www.danga.com/gearman/"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="ShSo\Net\Gearman" line="63" package="ShSo\Net\Gearman">
+      <extends/>
+      <name>Worker</name>
+      <full_name>\ShSo\Net\Gearman\Worker</full_name>
+      <docblock line="63">
+        <description>Gearman worker class</description>
+        <long-description>Run an instance of a worker to listen for jobs. It then manages the running
+of jobs, etc.
+
+&lt;code&gt;
+&lt;?php
+
+$servers = array(
+    '127.0.0.1:7003',
+    '127.0.0.1:7004'
+);
+
+$abilities = array('HelloWorld', 'Foo', 'Bar');
+
+try {
+    $worker = new ShSo\Net\Gearman\Worker($servers);
+    foreach ($abilities as $ability) {
+        $worker-&gt;addAbility('HelloWorld');
+    }
+    $worker-&gt;beginWork();
+} catch (ShSo\Net\Gearman\Exception $e) {
+    echo $e-&gt;getMessage() . "\n";
+    exit;
+}
+
+?&gt;
+&lt;/code&gt;</long-description>
+        <tag name="category" line="63" description="Net"/>
+        <tag name="package" line="63" description="ShSo\Net\Gearman"/>
+        <tag name="author" line="63" description="Joe Stump" link="mailto:joe@joestump.net"/>
+        <tag name="copyright" line="63" description="2007-2008 Digg.com, Inc."/>
+        <tag name="license" line="63" description="New BSD License" link="http://www.opensource.org/licenses/bsd-license.php"/>
+        <tag name="version" line="63" description="Release: @package_version@"/>
+        <tag name="link" line="63" description="http://www.danga.com/gearman/" link="http://www.danga.com/gearman/"/>
+        <tag name="see" line="63" description="ShSo\Net\Gearman\Connection" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Job,"/>
+      </docblock>
+      <constant namespace="ShSo\Net\Gearman" line="122" package="ShSo\Net\Gearman">
+        <name>JOB_START</name>
+        <full_name>\ShSo\Net\Gearman\Worker::JOB_START</full_name>
+        <value>1</value>
+        <docblock line="122">
+          <description>Callback types</description>
+          <long-description></long-description>
+          <tag name="const" line="122" description="integer JOB_START    Ran when a job is started"/>
+          <tag name="const" line="122" description="integer JOB_COMPLETE Ran when a job is finished"/>
+          <tag name="const" line="122" description="integer JOB_FAIL     Ran when a job fails"/>
+        </docblock>
+      </constant>
+      <constant namespace="ShSo\Net\Gearman" line="123" package="ShSo\Net\Gearman">
+        <name>JOB_COMPLETE</name>
+        <full_name>\ShSo\Net\Gearman\Worker::JOB_COMPLETE</full_name>
+        <value>2</value>
+        <docblock line="123">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </constant>
+      <constant namespace="ShSo\Net\Gearman" line="124" package="ShSo\Net\Gearman">
+        <name>JOB_FAIL</name>
+        <full_name>\ShSo\Net\Gearman\Worker::JOB_FAIL</full_name>
+        <value>3</value>
+        <docblock line="124">
+          <description></description>
+          <long-description></long-description>
+        </docblock>
+      </constant>
+      <property static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="70" package="ShSo\Net\Gearman">
+        <name>$conn</name>
+        <full_name>\ShSo\Net\Gearman\Worker::conn</full_name>
+        <default>array()</default>
+        <docblock line="70">
+          <description>Pool of connections to Gearman servers</description>
+          <long-description></long-description>
+          <tag name="var" line="70" description="" type="array" variable="$conn">
+            <type>array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="77" package="ShSo\Net\Gearman">
+        <name>$retryConn</name>
+        <full_name>\ShSo\Net\Gearman\Worker::retryConn</full_name>
+        <default>array()</default>
+        <docblock line="77">
+          <description>Pool of retry connections</description>
+          <long-description></long-description>
+          <tag name="var" line="77" description="" type="array" variable="$conn">
+            <type>array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="84" package="ShSo\Net\Gearman">
+        <name>$abilities</name>
+        <full_name>\ShSo\Net\Gearman\Worker::abilities</full_name>
+        <default>array()</default>
+        <docblock line="84">
+          <description>Pool of worker abilities</description>
+          <long-description></long-description>
+          <tag name="var" line="84" description="" type="array" variable="$conn">
+            <type>array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="91" package="ShSo\Net\Gearman">
+        <name>$initParams</name>
+        <full_name>\ShSo\Net\Gearman\Worker::initParams</full_name>
+        <default>array()</default>
+        <docblock line="91">
+          <description>Parameters for job contructors, indexed by ability name</description>
+          <long-description></long-description>
+          <tag name="var" line="91" description="" type="array" variable="$initParams">
+            <type>array</type>
+          </tag>
+        </docblock>
+      </property>
+      <property static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="101" package="ShSo\Net\Gearman">
+        <name>$callback</name>
+        <full_name>\ShSo\Net\Gearman\Worker::callback</full_name>
+        <default>array(self::JOB_START =&gt; array(), self::JOB_COMPLETE =&gt; array(), self::JOB_FAIL =&gt; array())</default>
+        <docblock line="101">
+          <description>Callbacks registered for this worker</description>
+          <long-description></long-description>
+          <tag name="var" line="101" description="" type="array" variable="$callback">
+            <type>array</type>
+          </tag>
+          <tag name="see" line="101" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Worker::JOB_START"/>
+          <tag name="see" line="101" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Worker::JOB_COMPLETE"/>
+          <tag name="see" line="101" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Worker::JOB_FAIL"/>
+        </docblock>
+      </property>
+      <property static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="112" package="ShSo\Net\Gearman">
+        <name>$id</name>
+        <full_name>\ShSo\Net\Gearman\Worker::id</full_name>
+        <default>""</default>
+        <docblock line="112">
+          <description>Unique id for this worker</description>
+          <long-description></long-description>
+          <tag name="var" line="112" description="" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="136" package="ShSo\Net\Gearman">
+        <name>__construct</name>
+        <full_name>\ShSo\Net\Gearman\Worker::__construct()</full_name>
+        <docblock line="136">
+          <description>Constructor</description>
+          <long-description></long-description>
+          <tag name="param" line="136" description="&lt;p&gt;List of servers to connect to&lt;/p&gt;" type="array" variable="$servers">
+            <type>array</type>
+          </tag>
+          <tag name="param" line="136" description="&lt;p&gt;Optional unique id for this worker&lt;/p&gt;" type="string" variable="$id">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="136" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="throws" line="136" description="" type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+          <tag name="see" line="136" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Connection"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$servers</name>
+          <default>null</default>
+          <type>array</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$id</name>
+          <default>""</default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="183" package="ShSo\Net\Gearman">
+        <name>addAbility</name>
+        <full_name>\ShSo\Net\Gearman\Worker::addAbility()</full_name>
+        <docblock line="183">
+          <description>Announce an ability to the job server</description>
+          <long-description></long-description>
+          <tag name="param" line="183" description="&lt;p&gt;Name of functcion/ability&lt;/p&gt;" type="string" variable="$ability">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="183" description="&lt;p&gt;How long to give this job&lt;/p&gt;" type="integer" variable="$timeout">
+            <type>integer</type>
+          </tag>
+          <tag name="param" line="183" description="&lt;p&gt;Parameters for job constructor&lt;/p&gt;" type="array" variable="$initParams">
+            <type>array</type>
+          </tag>
+          <tag name="return" line="183" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="see" line="183" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Connection::send()"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$ability</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$timeout</name>
+          <default>null</default>
+          <type>integer</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$initParams</name>
+          <default>array()</default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="216" package="ShSo\Net\Gearman">
+        <name>beginWork</name>
+        <full_name>\ShSo\Net\Gearman\Worker::beginWork()</full_name>
+        <docblock line="216">
+          <description>Begin working</description>
+          <long-description>This starts the worker on its journey of actually working. The first
+argument is a PHP callback to a function that can be used to monitor
+the worker. If no callback is provided then the worker works until it
+is killed. The monitor is passed two arguments; whether or not the
+worker is idle and when the last job was ran.</long-description>
+          <tag name="param" line="216" description="&lt;p&gt;Function to monitor work&lt;/p&gt;" type="callback" variable="$monitor">
+            <type>callback</type>
+          </tag>
+          <tag name="return" line="216" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="see" line="216" description="ShSo\Net\Gearman\Connection::connect()" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Connection::send(),"/>
+          <tag name="see" line="216" description="ShSo\Net\Gearman\Worker::addAbility()" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Worker::doWork(),"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$monitor</name>
+          <default>null</default>
+          <type>callback</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="305" package="ShSo\Net\Gearman">
+        <name>doWork</name>
+        <full_name>\ShSo\Net\Gearman\Worker::doWork()</full_name>
+        <docblock line="305">
+          <description>Listen on the socket for work</description>
+          <long-description>Sends the 'grab_job' command and then listens for either the 'noop' or
+the 'no_job' command to come back. If the 'job_assign' comes down the
+pipe then we run that job.</long-description>
+          <tag name="param" line="305" description="&lt;p&gt;The socket to work on&lt;/p&gt;" type="resource" variable="$socket">
+            <type>resource</type>
+          </tag>
+          <tag name="return" line="305" description="Returns true if work was done, false if not" type="boolean">
+            <type>boolean</type>
+          </tag>
+          <tag name="throws" line="305" description="" type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+          <tag name="see" line="305" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Connection::send()"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$socket</name>
+          <default></default>
+          <type>resource</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="367" package="ShSo\Net\Gearman">
+        <name>attachCallback</name>
+        <full_name>\ShSo\Net\Gearman\Worker::attachCallback()</full_name>
+        <docblock line="367">
+          <description>Attach a callback</description>
+          <long-description></long-description>
+          <tag name="param" line="367" description="&lt;p&gt;A valid PHP callback&lt;/p&gt;" type="callback" variable="$callback">
+            <type>callback</type>
+          </tag>
+          <tag name="param" line="367" description="&lt;p&gt;Type of callback&lt;/p&gt;" type="integer" variable="$type">
+            <type>integer</type>
+          </tag>
+          <tag name="return" line="367" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="throws" line="367" description="When an invalid callback is specified." type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+          <tag name="throws" line="367" description="When an invalid type is specified." type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$callback</name>
+          <default></default>
+          <type>callback</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$type</name>
+          <default>self::JOB_COMPLETE</default>
+          <type>integer</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="387" package="ShSo\Net\Gearman">
+        <name>start</name>
+        <full_name>\ShSo\Net\Gearman\Worker::start()</full_name>
+        <docblock line="387">
+          <description>Run the job start callbacks</description>
+          <long-description></long-description>
+          <tag name="param" line="387" description="&lt;p&gt;The job's Gearman handle&lt;/p&gt;" type="string" variable="$handle">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="387" description="&lt;p&gt;The name of the job&lt;/p&gt;" type="string" variable="$job">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="387" description="&lt;p&gt;The job's argument list&lt;/p&gt;" type="mixed" variable="$args">
+            <type>mixed</type>
+          </tag>
+          <tag name="return" line="387" description="" type="void">
+            <type>void</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$handle</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$job</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$args</name>
+          <default></default>
+          <type>mixed</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="407" package="ShSo\Net\Gearman">
+        <name>complete</name>
+        <full_name>\ShSo\Net\Gearman\Worker::complete()</full_name>
+        <docblock line="407">
+          <description>Run the complete callbacks</description>
+          <long-description></long-description>
+          <tag name="param" line="407" description="&lt;p&gt;The job's Gearman handle&lt;/p&gt;" type="string" variable="$handle">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="407" description="&lt;p&gt;The name of the job&lt;/p&gt;" type="string" variable="$job">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="407" description="&lt;p&gt;The job's returned result&lt;/p&gt;" type="array" variable="$result">
+            <type>array</type>
+          </tag>
+          <tag name="return" line="407" description="" type="void">
+            <type>void</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$handle</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$job</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$result</name>
+          <default></default>
+          <type>array</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="427" package="ShSo\Net\Gearman">
+        <name>fail</name>
+        <full_name>\ShSo\Net\Gearman\Worker::fail()</full_name>
+        <docblock line="427">
+          <description>Run the fail callbacks</description>
+          <long-description></long-description>
+          <tag name="param" line="427" description="&lt;p&gt;The job's Gearman handle&lt;/p&gt;" type="string" variable="$handle">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="427" description="&lt;p&gt;The name of the job&lt;/p&gt;" type="string" variable="$job">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="427" description="&lt;p&gt;The exception thrown&lt;/p&gt;" type="object" variable="$error">
+            <type>object</type>
+          </tag>
+          <tag name="return" line="427" description="" type="void">
+            <type>void</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$handle</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$job</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$error</name>
+          <default></default>
+          <type>object</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="443" package="ShSo\Net\Gearman">
+        <name>endWork</name>
+        <full_name>\ShSo\Net\Gearman\Worker::endWork()</full_name>
+        <docblock line="443">
+          <description>Stop working</description>
+          <long-description></long-description>
+          <tag name="return" line="443" description="" type="void">
+            <type>void</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="456" package="ShSo\Net\Gearman">
+        <name>__destruct</name>
+        <full_name>\ShSo\Net\Gearman\Worker::__destruct()</full_name>
+        <docblock line="456">
+          <description>Destructor</description>
+          <long-description></long-description>
+          <tag name="return" line="456" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="see" line="456" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Worker::stop()"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="466" package="ShSo\Net\Gearman">
+        <name>stopWork</name>
+        <full_name>\ShSo\Net\Gearman\Worker::stopWork()</full_name>
+        <docblock line="466">
+          <description>Should we stop work?</description>
+          <long-description></long-description>
+          <tag name="return" line="466" description="" type="boolean">
+            <type>boolean</type>
+          </tag>
+        </docblock>
+      </method>
+    </class>
+    <source>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</source>
+  </file>
+  <file path="Manager.php" generated-path="Manager.html" hash="a679d88f5b4f4893152a989e879f23c2" package="ShSo\Net\Gearman">
+    <docblock line="0">
+      <description>Interface for Danga's Gearman job scheduling system</description>
+      <long-description>PHP version 5.1.0+
+
+LICENSE: This source file is subject to the New BSD license that is
+available through the world-wide-web at the following URI:
+http://www.opensource.org/licenses/bsd-license.php. If you did not receive
+a copy of the New BSD License and are unable to obtain it through the web,
+please send a note to license@php.net so we can mail you a copy immediately.</long-description>
+      <tag name="category" line="0" description="Net"/>
+      <tag name="package" line="0" description="ShSo\Net\Gearman"/>
+      <tag name="author" line="0" description="Joe Stump" link="mailto:joe@joestump.net"/>
+      <tag name="copyright" line="0" description="2007-2008 Digg.com, Inc."/>
+      <tag name="license" line="0" description="New BSD License" link="http://www.opensource.org/licenses/bsd-license.php"/>
+      <tag name="version" line="0" description="CVS: $Id$"/>
+      <tag name="link" line="0" description="http://pear.php.net/package/Net_Gearman" link="http://pear.php.net/package/Net_Gearman"/>
+      <tag name="link" line="0" description="http://www.danga.com/gearman/" link="http://www.danga.com/gearman/"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="ShSo\Net\Gearman" line="40" package="ShSo\Net\Gearman">
+      <extends/>
+      <name>Manager</name>
+      <full_name>\ShSo\Net\Gearman\Manager</full_name>
+      <docblock line="40">
+        <description>A client for managing Gearmand servers</description>
+        <long-description>This class implements the administrative text protocol used by Gearman to do
+a number of administrative tasks such as collecting stats on workers, the
+queue, shutting down the server, version, etc.</long-description>
+        <tag name="category" line="40" description="Net"/>
+        <tag name="package" line="40" description="ShSo\Net\Gearman"/>
+        <tag name="author" line="40" description="Joe Stump" link="mailto:joe@joestump.net"/>
+        <tag name="copyright" line="40" description="2007-2008 Digg.com, Inc."/>
+        <tag name="license" line="40" description="New BSD License" link="http://www.opensource.org/licenses/bsd-license.php"/>
+        <tag name="version" line="40" description="Release: @package_version@"/>
+        <tag name="link" line="40" description="http://www.danga.com/gearman/" link="http://www.danga.com/gearman/"/>
+      </docblock>
+      <property static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="49" package="ShSo\Net\Gearman">
+        <name>$conn</name>
+        <full_name>\ShSo\Net\Gearman\Manager::conn</full_name>
+        <default>null</default>
+        <docblock line="49">
+          <description>Connection resource</description>
+          <long-description></long-description>
+          <tag name="var" line="49" description="&lt;p&gt;Connection to Gearman server&lt;/p&gt;" type="resource" variable="$conn">
+            <type>resource</type>
+          </tag>
+          <tag name="see" line="49" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Manager::sendCommand()"/>
+          <tag name="see" line="49" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Manager::recvCommand()"/>
+        </docblock>
+      </property>
+      <property static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="60" package="ShSo\Net\Gearman">
+        <name>$shutdown</name>
+        <full_name>\ShSo\Net\Gearman\Manager::shutdown</full_name>
+        <default>false</default>
+        <docblock line="60">
+          <description>The server is shutdown</description>
+          <long-description>We obviously can't send more commands to a server after it's been shut
+down. This is set to true in ShSo\Net\Gearman\Manager::shutdown() and then
+checked in ShSo\Net\Gearman\Manager::sendCommand().</long-description>
+          <tag name="var" line="60" description="" type="boolean" variable="$shutdown">
+            <type>boolean</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="71" package="ShSo\Net\Gearman">
+        <name>__construct</name>
+        <full_name>\ShSo\Net\Gearman\Manager::__construct()</full_name>
+        <docblock line="71">
+          <description>Constructor</description>
+          <long-description></long-description>
+          <tag name="param" line="71" description="&lt;p&gt;Host and port (e.g. 'localhost:7003')&lt;/p&gt;" type="string" variable="$server">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="71" description="&lt;p&gt;Connection timeout&lt;/p&gt;" type="integer" variable="$timeout">
+            <type>integer</type>
+          </tag>
+          <tag name="throws" line="71" description="" type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+          <tag name="see" line="71" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Manager::$conn"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$server</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$timeout</name>
+          <default>5</default>
+          <type>integer</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="97" package="ShSo\Net\Gearman">
+        <name>version</name>
+        <full_name>\ShSo\Net\Gearman\Manager::version()</full_name>
+        <docblock line="97">
+          <description>Get the version of Gearman running</description>
+          <long-description></long-description>
+          <tag name="return" line="97" description="" type="string">
+            <type>string</type>
+          </tag>
+          <tag name="see" line="97" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Manager::sendCommand()"/>
+          <tag name="see" line="97" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Manager::checkForError()"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="115" package="ShSo\Net\Gearman">
+        <name>shutdown</name>
+        <full_name>\ShSo\Net\Gearman\Manager::shutdown()</full_name>
+        <docblock line="115">
+          <description>Shut down Gearman</description>
+          <long-description></long-description>
+          <tag name="param" line="115" description="&lt;p&gt;Whether it should be a graceful shutdown&lt;/p&gt;" type="boolean" variable="$graceful">
+            <type>boolean</type>
+          </tag>
+          <tag name="return" line="115" description="" type="boolean">
+            <type>boolean</type>
+          </tag>
+          <tag name="see" line="115" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Manager::sendCommand()"/>
+          <tag name="see" line="115" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Manager::checkForError()"/>
+          <tag name="see" line="115" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Manager::$shutdown"/>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$graceful</name>
+          <default>false</default>
+          <type>boolean</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="135" package="ShSo\Net\Gearman">
+        <name>workers</name>
+        <full_name>\ShSo\Net\Gearman\Manager::workers()</full_name>
+        <docblock line="135">
+          <description>Get worker status and info</description>
+          <long-description>Returns the file descriptor, IP address, client ID and the abilities
+that the worker has announced.</long-description>
+          <tag name="return" line="135" description="A list of workers connected to the server" type="array">
+            <type>array</type>
+          </tag>
+          <tag name="throws" line="135" description="" type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="178" package="ShSo\Net\Gearman">
+        <name>setMaxQueueSize</name>
+        <full_name>\ShSo\Net\Gearman\Manager::setMaxQueueSize()</full_name>
+        <docblock line="178">
+          <description>Set maximum queue size for a function</description>
+          <long-description>For a given function of job, the maximum queue size is adjusted to be
+max_queue_size jobs long. A negative value indicates unlimited queue
+size.
+
+If the max_queue_size value is not supplied then it is unset (and the
+default maximum queue size will apply to this function).</long-description>
+          <tag name="param" line="178" description="&lt;p&gt;Name of function to set queue size for&lt;/p&gt;" type="string" variable="$function">
+            <type>string</type>
+          </tag>
+          <tag name="param" line="178" description="&lt;p&gt;New size of queue&lt;/p&gt;" type="integer" variable="$size">
+            <type>integer</type>
+          </tag>
+          <tag name="return" line="178" description="" type="boolean">
+            <type>boolean</type>
+          </tag>
+          <tag name="throws" line="178" description="" type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$function</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+        <argument line="0" by_reference="false">
+          <name>$size</name>
+          <default></default>
+          <type>integer</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="205" package="ShSo\Net\Gearman">
+        <name>status</name>
+        <full_name>\ShSo\Net\Gearman\Manager::status()</full_name>
+        <docblock line="205">
+          <description>Get queue/worker status by function</description>
+          <long-description>This function queries for queue status. The array returned is keyed by
+the function (job) name and has how many jobs are in the queue, how
+many jobs are running and how many workers are capable of performing
+that job.</long-description>
+          <tag name="return" line="205" description="An array keyed by function name" type="array">
+            <type>array</type>
+          </tag>
+          <tag name="throws" line="205" description="" type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="237" package="ShSo\Net\Gearman">
+        <name>sendCommand</name>
+        <full_name>\ShSo\Net\Gearman\Manager::sendCommand()</full_name>
+        <docblock line="237">
+          <description>Send a command</description>
+          <long-description></long-description>
+          <tag name="param" line="237" description="&lt;p&gt;The command to send&lt;/p&gt;" type="string" variable="$cmd">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="237" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="throws" line="237" description="" type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$cmd</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="259" package="ShSo\Net\Gearman">
+        <name>recvCommand</name>
+        <full_name>\ShSo\Net\Gearman\Manager::recvCommand()</full_name>
+        <docblock line="259">
+          <description>Receive a response</description>
+          <long-description>For most commands Gearman returns a bunch of lines and ends the
+transmission of data with a single line of ".\n". This command reads
+in everything until ".\n". If the command being sent is NOT ended with
+".\n" DO NOT use this command.</long-description>
+          <tag name="throws" line="259" description="" type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+          <tag name="return" line="259" description="" type="string">
+            <type>string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="ShSo\Net\Gearman" line="287" package="ShSo\Net\Gearman">
+        <name>checkForError</name>
+        <full_name>\ShSo\Net\Gearman\Manager::checkForError()</full_name>
+        <docblock line="287">
+          <description>Check for an error</description>
+          <long-description>Gearman returns errors in the format of 'ERR code_here Message+here'.
+This method checks returned values from the server for this error format
+and will throw the appropriate exception.</long-description>
+          <tag name="param" line="287" description="&lt;p&gt;The returned data to check for an error&lt;/p&gt;" type="string" variable="$data">
+            <type>string</type>
+          </tag>
+          <tag name="return" line="287" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="throws" line="287" description="" type="\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception">
+            <type>\ShSo\Net\Gearman\ShSo\Net\Gearman\Exception</type>
+          </tag>
+        </docblock>
+        <argument line="0" by_reference="false">
+          <name>$data</name>
+          <default></default>
+          <type>string</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="302" package="ShSo\Net\Gearman">
+        <name>disconnect</name>
+        <full_name>\ShSo\Net\Gearman\Manager::disconnect()</full_name>
+        <docblock line="302">
+          <description>Disconnect from server</description>
+          <long-description></long-description>
+          <tag name="return" line="302" description="" type="void">
+            <type>void</type>
+          </tag>
+          <tag name="see" line="302" description="" link="\ShSo\Net\Gearman\ShSo\Net\Gearman\Manager::$conn"/>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="ShSo\Net\Gearman" line="314" package="ShSo\Net\Gearman">
+        <name>__destruct</name>
+        <full_name>\ShSo\Net\Gearman\Manager::__destruct()</full_name>
+        <docblock line="314">
+          <description>Destructor</description>
+          <long-description></long-description>
+          <tag name="return" line="314" description="" type="void">
+            <type>void</type>
+          </tag>
+        </docblock>
+      </method>
+    </class>
+    <source>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</source>
+  </file>
+  <package name="ShSo" full_name="ShSo">
+    <package name="Net" full_name="ShSo\Net">
+      <package name="Gearman" full_name="ShSo\Net\Gearman"/>
+    </package>
+  </package>
+  <package name="global" full_name="global"/>
+  <namespace name="global" full_name="global"/>
+  <namespace name="ShSo" full_name="ShSo">
+    <namespace name="Net" full_name="ShSo\Net">
+      <namespace name="Gearman" full_name="ShSo\Net\Gearman">
+        <namespace name="Job" full_name="ShSo\Net\Gearman\Job"/>
+      </namespace>
+    </namespace>
+  </namespace>
+  <deprecated count="0"/>
+</project>
