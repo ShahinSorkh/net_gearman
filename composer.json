@@ -9,7 +9,7 @@
             "email": "sorkh.shahin@hotmail.com"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
             "ShSo\\Net\\": "Net"
